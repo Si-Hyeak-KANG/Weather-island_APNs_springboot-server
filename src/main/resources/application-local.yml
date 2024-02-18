@@ -3,3 +3,7 @@ spring:
     redis:
       host: localhost
       port: 6379
+
+openWeather:
+    api:
+      key: ${OPEN-WEATHER-API-KEY}
