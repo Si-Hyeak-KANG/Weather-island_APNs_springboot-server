@@ -14,7 +14,7 @@ import lombok.ToString;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CurrAppInfoDto {
+public class AppInfoRequestDto {
 
     @JsonProperty("device_token")
     private String deviceToken;

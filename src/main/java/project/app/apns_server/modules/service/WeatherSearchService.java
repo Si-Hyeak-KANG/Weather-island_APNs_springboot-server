@@ -8,11 +8,9 @@ import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import project.app.apns_server.modules.dto.CurrAppInfoDto;
 import project.app.apns_server.modules.dto.WeatherApiResponseDto;
 
 import java.net.URI;
-import org.springframework.http.HttpHeaders;
 
 @Slf4j
 @Service
@@ -27,11 +25,12 @@ public class WeatherSearchService {
             maxAttempts = 2,
             backoff = @Backoff(delay = 2000)
     )
-    public WeatherApiResponseDto requestCurrWeatherByLocation(CurrAppInfoDto appInfo) {
+    public WeatherApiResponseDto requestCurrWeatherByLocationCoordinate(double lat, double lon) {
 
-        URI uri = openWeatherUriBuilderService.buildUriByLocation(appInfo.getLatitude(), appInfo.getLongitude());
+        URI uri = openWeatherUriBuilderService.buildUriByLocation(lat, lon);
 
         WeatherApiResponseDto body = restTemplate.exchange(uri, HttpMethod.GET, HttpEntity.EMPTY, WeatherApiResponseDto.class).getBody();
+        body.convertUnit();
         log.info("requestCurrWeatherByLocation temp = {}",body.getMainDto());
         return body;
     }

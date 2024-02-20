@@ -1,11 +1,9 @@
 package project.app.apns_server.modules.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sun.tools.javac.Main;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * @OPEN-API-REFERENCE : https://openweathermap.org/current
@@ -18,12 +16,17 @@ public class WeatherApiResponseDto {
     @JsonProperty("main")
     private MainDto mainDto;
 
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
+    public void convertUnit() {
+        this.mainDto.temp -= 273.15;
+    }
+
+    public double getTemp() {
+        return this.mainDto.temp;
+    }
+
     private static class MainDto {
 
         @JsonProperty("temp")
-        private double temp;
+        private double temp; // kelvin
     }
 }
