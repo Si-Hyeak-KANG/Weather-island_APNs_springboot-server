@@ -13,11 +13,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class WeatherApiResponseDto {
 
+    public static final double DEFAULT_KELVIN = 273.15;
+
     @JsonProperty("main")
     private MainDto mainDto;
 
     public void convertUnit() {
-        this.mainDto.temp -= 273.15;
+        this.mainDto.temp -= DEFAULT_KELVIN;
     }
 
     public double getTemp() {
