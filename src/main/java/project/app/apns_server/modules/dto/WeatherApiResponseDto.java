@@ -18,7 +18,7 @@ public class WeatherApiResponseDto {
     @JsonProperty("main")
     private MainDto mainDto;
 
-    public void convertUnit() {
+    public void convertToCelsius() {
         this.mainDto.temp -= DEFAULT_KELVIN;
     }
 

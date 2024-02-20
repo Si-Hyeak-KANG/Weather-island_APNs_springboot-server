@@ -30,7 +30,7 @@ public class WeatherSearchService {
         URI uri = openWeatherUriBuilderService.buildUriByLocation(lat, lon);
 
         WeatherApiResponseDto body = restTemplate.exchange(uri, HttpMethod.GET, HttpEntity.EMPTY, WeatherApiResponseDto.class).getBody();
-        body.convertUnit();
+        body.convertToCelsius();
         log.info("requestCurrWeatherByLocation temp = {}",body.getMainDto());
         return body;
     }
