@@ -58,4 +58,8 @@ public class AppInfoVo {
     public int hashCode() {
         return liveActivityToken.hashCode();
     }
+
+    public void updateCurrTemp(long currTemp) {
+        this.temp = currTemp;
+    }
 }

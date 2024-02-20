@@ -9,8 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import project.app.apns_server.modules.dto.AppInfoRequestDto;
-import project.app.apns_server.modules.dto.WeatherApiResponseDto;
 import project.app.apns_server.modules.vo.AppInfoVo;
 
 @Slf4j
@@ -30,9 +28,7 @@ public class AppInfoRedisService {
         this.hashOperations = redisTemplate.opsForHash();
     }
 
-    public AppInfoVo saveInfo(AppInfoRequestDto appInfo, WeatherApiResponseDto weatherInfo) {
-
-        AppInfoVo info = AppInfoVo.of(appInfo, weatherInfo);
+    public void saveInfo(AppInfoVo info) {
         try {
             hashOperations.put(APP_INFO_KEY,
                     info.getLiveActivityToken(),
@@ -40,7 +36,15 @@ public class AppInfoRedisService {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        return info;
+    }
+
+    public AppInfoVo findAppInfoByLiveActivityToken(String liveActivityToken) {
+        try{
+            String data = hashOperations.entries(APP_INFO_KEY).get(liveActivityToken);
+            return deserializeAppInfoVo(data);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private String serializeAppInfoVo(AppInfoVo info) throws JsonProcessingException {
@@ -50,4 +54,5 @@ public class AppInfoRedisService {
     private AppInfoVo deserializeAppInfoVo(String value) throws JsonProcessingException {
         return objectMapper.registerModule(new JavaTimeModule()).readValue(value, AppInfoVo.class);
     }
+
 }

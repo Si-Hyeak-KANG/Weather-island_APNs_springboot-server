@@ -34,4 +34,6 @@ public class WeatherSearchService {
         log.info("requestCurrWeatherByLocation temp = {}",body.getMainDto());
         return body;
     }
+
+
 }
