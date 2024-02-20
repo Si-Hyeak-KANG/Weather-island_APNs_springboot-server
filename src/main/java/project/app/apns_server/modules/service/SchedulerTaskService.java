@@ -1,9 +1,9 @@
 package project.app.apns_server.modules.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.Trigger;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.PeriodicTrigger;
 import org.springframework.stereotype.Service;
@@ -34,24 +34,27 @@ public class SchedulerTaskService {
         return new PeriodicTrigger(30, TimeUnit.SECONDS);
     }
 
-    @Async
-    public Runnable checkWeatherCurrApp(final String liveActivityToken) {
+    public Runnable checkWeatherCurrApp(final String deviceToken) {
         return () -> {
-            log.info("checkWeatherCurrApp-liveActivityToken: {}", liveActivityToken);
+            log.info("checkWeatherCurrApp-deviceToken: {}", deviceToken);
 
-            AppInfoVo appInfoVo = appInfoRedisService.findAppInfoByLiveActivityToken(liveActivityToken);
+            AppInfoVo appInfoVo = appInfoRedisService.findAppInfoByDeviceToken(deviceToken);
             if (appInfoVo != null) {
-                WeatherApiResponseDto currWeather = weatherSearchService.requestCurrWeatherByLocationCoordinate(appInfoVo.getLatitude(), appInfoVo.getLongitude());
+                WeatherApiResponseDto currWeather = weatherSearchService.requestCurrWeatherByLocation(appInfoVo.getLatitude(), appInfoVo.getLongitude());
 
                 long pastTemp = Math.round(appInfoVo.getTemp());
                 long currTemp = Math.round(currWeather.getTemp());
 
-                log.info("[{} - {} 스케줄러 동작]", liveActivityToken, LocalDateTime.now());
+                log.info("[{} - {} 스케줄러 동작]", deviceToken, LocalDateTime.now());
 
                 if (differenceBetweenPastAndCurrTemp(pastTemp, currTemp)) {
                     log.info("차이 발생");
                     appInfoVo.updateCurrTemp(currTemp);
-                    appInfoRedisService.saveInfo(appInfoVo);
+                    try {
+                        appInfoRedisService.saveInfo(appInfoVo);
+                    } catch (JsonProcessingException e) {
+                        throw new RuntimeException(e);
+                    }
                     // TODO APNs push
                 }
             } else {

@@ -1,12 +1,10 @@
 package project.app.apns_server.modules.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,15 +28,22 @@ public class MainController {
     private final SchedulerTaskService schedulerTaskService;
 
     @PostMapping("/init/app/info")
-    public ResponseEntity<Response> saveAppAndWeatherInitInfo(@RequestBody AppInfoRequestDto appInfo) {
+    public ResponseEntity<Response> saveAppAndWeatherInitInfo(@RequestBody AppInfoRequestDto appInfo) throws JsonProcessingException {
         log.info("MainController CurrAppInfo : {}", appInfo.toString());
         // 현재 앱의 위치에 맞는 날씨 조회
-        WeatherApiResponseDto weatherInfo = weatherSearchService.requestCurrWeatherByLocationCoordinate(appInfo.getLatitude(), appInfo.getLongitude());
+        WeatherApiResponseDto weatherInfo = weatherSearchService.requestCurrWeatherByLocation(appInfo.getLatitude(), appInfo.getLongitude());
+
         // 조회한 날씨와 요청한 앱의 데이터 Redis 저장
         AppInfoVo result = AppInfoVo.of(appInfo, weatherInfo);
-        appInfoRedisService.saveInfo(result);
 
-        schedulerTaskService.startScheduler(appInfo.getLiveActivityToken());
+        switch (appInfoRedisService.saveInfo(result)) {
+            case "update" -> log.info("update");
+            case "create" -> {
+                log.info("create");
+                schedulerTaskService.startScheduler(appInfo.getDeviceToken());
+            }
+
+        }
 
         log.info("MainController success");
         return new ResponseEntity<>(Response.success(result), HttpStatus.CREATED);

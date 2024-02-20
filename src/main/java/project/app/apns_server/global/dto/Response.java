@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.cglib.core.Local;
-import org.springframework.format.annotation.DateTimeFormat;
 import project.app.apns_server.modules.vo.AppInfoVo;
 
 import java.time.LocalDateTime;
@@ -72,7 +70,7 @@ public class Response {
     private static class WeatherResponse {
 
         @JsonProperty("temp")
-        private double temp; // unit: kelvin
+        private double temp;
 
         public WeatherResponse(AppInfoVo result) {
             this.temp = result.getTemp();

@@ -28,19 +28,26 @@ public class AppInfoRedisService {
         this.hashOperations = redisTemplate.opsForHash();
     }
 
-    public void saveInfo(AppInfoVo info) {
-        try {
-            hashOperations.put(APP_INFO_KEY,
-                    info.getLiveActivityToken(),
-                    serializeAppInfoVo(info));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+    public String saveInfo(AppInfoVo info) throws JsonProcessingException {
+
+        String returnValue = "";
+        if (alreadyExistKey(info)) returnValue = "update";
+        else returnValue = "create";
+
+        hashOperations.put(APP_INFO_KEY,
+                info.getDeviceToken(),
+                serializeAppInfoVo(info));
+
+        return returnValue;
     }
 
-    public AppInfoVo findAppInfoByLiveActivityToken(String liveActivityToken) {
-        try{
-            String data = hashOperations.entries(APP_INFO_KEY).get(liveActivityToken);
+    private Boolean alreadyExistKey(AppInfoVo info) {
+        return hashOperations.hasKey(APP_INFO_KEY, info.getDeviceToken());
+    }
+
+    public AppInfoVo findAppInfoByDeviceToken(String deviceToken) {
+        try {
+            String data = hashOperations.entries(APP_INFO_KEY).get(deviceToken);
             return deserializeAppInfoVo(data);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);

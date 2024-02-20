@@ -25,14 +25,18 @@ public class WeatherSearchService {
             maxAttempts = 2,
             backoff = @Backoff(delay = 2000)
     )
-    public WeatherApiResponseDto requestCurrWeatherByLocationCoordinate(double lat, double lon) {
+    public WeatherApiResponseDto requestCurrWeatherByLocation(double lat, double lon) {
 
         URI uri = openWeatherUriBuilderService.buildUriByLocation(lat, lon);
 
         WeatherApiResponseDto body = restTemplate.exchange(uri, HttpMethod.GET, HttpEntity.EMPTY, WeatherApiResponseDto.class).getBody();
-        body.convertToCelsius();
+        convertTempUnitToCelsius(body);
         log.info("requestCurrWeatherByLocation temp = {}",body.getMainDto());
         return body;
+    }
+
+    private static void convertTempUnitToCelsius(WeatherApiResponseDto body) {
+        body.convertToCelsius();
     }
 
 

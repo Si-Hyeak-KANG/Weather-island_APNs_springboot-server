@@ -43,7 +43,8 @@ public class AppInfoVo {
                 appInfo.getLiveActivityToken(),
                 appInfo.getLatitude(),
                 appInfo.getLongitude(),
-                weatherInfo.getTemp());
+                weatherInfo.getTemp()
+        );
     }
 
     @Override
