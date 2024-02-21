@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.Map;
 
 @Slf4j
-@Service
 public class ApnsConsoleServiceImpl implements ApplePushNotificationService {
 
     private static final String URL = "https://api.sandbox.push.apple.com/3/device/";
