@@ -28,7 +28,7 @@ public class MainController {
     private final WeatherSearchService weatherSearchService;
 
     @PostMapping("/init/app/info")
-    public ResponseEntity<Response> saveAppAndWeatherInitInfo(@RequestBody AppInfoRequestDto appInfoRequest) throws JsonProcessingException {
+    public ResponseEntity<Response> saveAppAndWeatherInitInfo(@RequestBody AppInfoRequestDto appInfoRequest) {
 
         // 현재 앱의 위치에 맞는 날씨 조회
         WeatherApiResponseDto weatherInfo = weatherSearchService
