@@ -4,16 +4,6 @@ spring:
       host: localhost
       port: 6379
 
-open-weather:
-    api:
-      key: ${OPEN-WEATHER-API-KEY}
-
-apple:
-  push:
-    notification:
-      auth-token: ${APPLE_AUTH_TOKEN}
-      app-bundle-id: ${APP_BUNDLE_ID}
-
 logging:
   level:
     project.app.apns_server.modules : debug

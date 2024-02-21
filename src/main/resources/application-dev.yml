@@ -1,0 +1,19 @@
+spring:
+  data:
+    redis:
+      host: host.docker.internal
+      port: 6380
+
+open-weather:
+    api:
+      key: ${OPEN_WEATHER_API_KEY}
+
+apple:
+  push:
+    notification:
+      auth-token: ${APPLE_AUTH_TOKEN}
+      app-bundle-id: ${APP_BUNDLE_ID}
+
+logging:
+  level:
+    project.app.apns_server.modules : debug

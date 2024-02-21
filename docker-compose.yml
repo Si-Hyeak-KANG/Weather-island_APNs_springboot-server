@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+  weather-island-redis:
+    container_name: weather-island-redis
+    build:
+      dockerfile: Dockerfile
+      context: ./redis
+    image: zlcls456/weather-island-redis
+    ports:
+      - "6380:6379"
+  weather-island-app:
+    container_name: weather-island-app
+    build: .
+    depends_on:
+      - weather-island-redis
+    image: zlcls456/weather-island-app
+    environment:
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+      - OPEN_WEATHER_API_KEY=${OPEN_WEATHER_API_KEY}
+      - APPLE_AUTH_TOKEN=${APPLE_AUTH_TOKEN}
+      - APP_BUNDLE_ID=${APP_BUNDLE_ID}
+    ports:
+      - "8080:8080"
+    restart: always

@@ -4,3 +4,5 @@ spring:
     group:
       local:
         - common
+      dev:
+        - common
