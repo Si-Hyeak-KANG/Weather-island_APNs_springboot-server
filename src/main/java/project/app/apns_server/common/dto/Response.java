@@ -1,4 +1,4 @@
-package project.app.apns_server.global.dto;
+package project.app.apns_server.common.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -49,21 +49,11 @@ public class Response {
         @JsonProperty("lon")
         private double longitude;
 
-        @JsonProperty("created_dt")
-        @JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
-        private LocalDateTime createdDt;
-
-        @JsonProperty("updated_dt")
-        @JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
-        private LocalDateTime updatedDt;
-
         public AppResponse(AppInfoVo result) {
             this.deviceToken = result.getDeviceToken();
             this.liveActivityToken = result.getLiveActivityToken();
             this.latitude = result.getLatitude();
             this.longitude = result.getLongitude();
-            this.createdDt = result.getCreatedDt();
-            this.updatedDt = result.getUpdatedDt();
         }
     }
 

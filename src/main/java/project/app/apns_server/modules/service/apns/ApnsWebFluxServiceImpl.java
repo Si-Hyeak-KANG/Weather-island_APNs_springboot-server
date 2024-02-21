@@ -3,35 +3,23 @@ package project.app.apns_server.modules.service.apns;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * curl \
- * --header "apns-topic: {앱번들ID}.push-type.liveactivity" \
- * --header "apns-push-type: liveactivity" \
- * --header "apns-priority: 10" \
- * --header "authorization: bearer $AUTHENTICATION_TOKEN" \
- * --data '{
- * "aps": {
- * "timestamp": '$(date +%s)',
- * "event": "update",
- * "content-state": {
- * // 필요한 정보 추가
- * }
- * }
- * }' \
- * --http2 https://api.sandbox.push.apple.com/3/device/$ACTIVITY_PUSH_TOKEN
- */
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ApnsRestTemplateService implements ApplePushNotificationService {
+public class ApnsWebFluxServiceImpl implements ApplePushNotificationService {
 
     @Value("${apple.push.notification.auth-token}")
     private static String AUTHENTICATION_TOKEN;
@@ -43,10 +31,15 @@ public class ApnsRestTemplateService implements ApplePushNotificationService {
     private static final String PUSH_TYPE = "liveactivity";
     private static final String PRIORITY = "10";
 
-    private final RestTemplate restTemplate;
+    private final WebClient.Builder webClientBuilder;
 
+    @Retryable(
+            value = {RuntimeException.class},
+            maxAttempts = 2,
+            backoff = @Backoff(delay = 2000)
+    )
     @Override
-    public void pushNotification(String liveActivityToken, double temp) {
+    public Mono<Void> pushNotification(String liveActivityToken, double temp) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -63,14 +56,20 @@ public class ApnsRestTemplateService implements ApplePushNotificationService {
 
         Map<String, Object> body = Collections.singletonMap("aps", aps);
 
-        HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<>(body, headers);
-        ResponseEntity<String> response = restTemplate.exchange(URL + liveActivityToken, HttpMethod.POST, httpEntity, String.class);
-
-        log.info("apns reponse = {}", response.getBody());
-
+        return webClientBuilder.build()
+                .post()
+                .uri(URL + liveActivityToken)
+                .headers(h -> h.addAll(headers))
+                .body(Mono.just(body), new ParameterizedTypeReference<Map<String, Object>>() {
+                })
+                .retrieve()
+                .bodyToMono(String.class)
+                .doOnNext(response -> log.info("apns response = {}", response))
+                .then();
     }
 
-    private static Map<String, Object> getContentState(double temp) {
+    @Override
+    public Map<String, Double> getContentState(double temp) {
         return Collections.singletonMap("temperature", temp);
     }
 }

@@ -1,6 +1,12 @@
 package project.app.apns_server.modules.service.apns;
 
+import reactor.core.publisher.Mono;
+
+import java.util.Map;
+
 public interface ApplePushNotificationService {
 
-    void pushNotification(String liveActivityToken, double temp);
+    Mono<Void> pushNotification(String liveActivityToken, double temp);
+
+    Map<String, Double> getContentState(double temp);
 }

@@ -26,9 +26,13 @@ public class WeatherApiResponseDto {
         return this.mainDto.temp;
     }
 
-    private static class MainDto {
+    protected static class MainDto {
 
         @JsonProperty("temp")
         private double temp; // kelvin
+
+        public MainDto(double temp) {
+            this.temp = temp;
+        }
     }
 }
