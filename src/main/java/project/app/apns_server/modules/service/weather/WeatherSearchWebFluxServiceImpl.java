@@ -1,6 +1,7 @@
 package project.app.apns_server.modules.service.weather;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -8,6 +9,7 @@ import project.app.apns_server.modules.dto.WeatherApiResponseDto;
 
 import java.net.URI;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class WeatherSearchWebFluxServiceImpl implements WeatherSearchService {
@@ -23,6 +25,8 @@ public class WeatherSearchWebFluxServiceImpl implements WeatherSearchService {
                 .retrieve()
                 .bodyToMono(WeatherApiResponseDto.class)
                 .doOnNext(this::convertTempUnitToCelsius)
+                .doOnNext(response -> log.info("[WeatherSearchWebFluxServiceImpl requestCurrWeatherByLocation] success"))
+                .doOnNext(response -> log.debug("[WeatherSearchWebFluxServiceImpl requestCurrWeatherByLocation] response temp = {}", response.getTemp()))
                 .block();
     }
 }

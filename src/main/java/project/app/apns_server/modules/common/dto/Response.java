@@ -1,4 +1,4 @@
-package project.app.apns_server.common.dto;
+package project.app.apns_server.modules.common.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;

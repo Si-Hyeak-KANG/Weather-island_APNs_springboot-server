@@ -3,6 +3,7 @@ package project.app.apns_server.modules.service.apns;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
+@Profile({"dev","prod"})
 @Service
 @RequiredArgsConstructor
 public class ApnsWebFluxServiceImpl implements ApplePushNotificationService {
@@ -64,7 +66,7 @@ public class ApnsWebFluxServiceImpl implements ApplePushNotificationService {
                 })
                 .retrieve()
                 .bodyToMono(String.class)
-                .doOnNext(response -> log.info("apns response = {}", response))
+                .doOnNext(response -> log.info("[ApnsWebFluxServiceImpl pushNotification success] response = {}", response))
                 .then();
     }
 

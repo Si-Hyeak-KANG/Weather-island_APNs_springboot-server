@@ -37,13 +37,17 @@ public class SchedulerTaskService {
 
     public Runnable checkWeatherCurrApp(final String deviceToken) {
         return () -> {
+
+            log.info("[SchedulerTaskService checkWeatherCurrApp] 스케줄러 작업을 시작합니다.(time: {})", LocalDateTime.now());
             AppInfoVo appInfo = appInfoRedisService.findAppInfoByDeviceToken(deviceToken);
 
             WeatherApiResponseDto currWeather = weatherSearchService.requestCurrWeatherByLocation(appInfo.getLatitude(), appInfo.getLongitude());
             double pastTemp = appInfo.getTemp();
             double currTemp = currWeather.getTemp();
+            log.info("[SchedulerTaskService checkWeatherCurrApp] 30분전 온도 = {}, 현재 온도 = {} ", pastTemp, currTemp);
 
             if (comparePastToCurrTemp(pastTemp, currTemp)) {
+                log.info("[SchedulerTaskService checkWeatherCurrApp] 차이 발생");
                 appInfo.updateCurrTemp(currTemp);
                 appInfoRedisService.saveInfo(appInfo);
                 applePushNotificationService.pushNotification(appInfo.getLiveActivityToken(), currTemp);
