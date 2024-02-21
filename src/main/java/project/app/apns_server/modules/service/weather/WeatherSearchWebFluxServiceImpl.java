@@ -2,11 +2,13 @@ package project.app.apns_server.modules.service.weather;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
+import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import project.app.apns_server.modules.dto.WeatherApiResponseDto;
 
 import java.net.URI;
 
+@Service
 @RequiredArgsConstructor
 public class WeatherSearchWebFluxServiceImpl implements WeatherSearchService {
 
@@ -21,7 +23,6 @@ public class WeatherSearchWebFluxServiceImpl implements WeatherSearchService {
                 .retrieve()
                 .bodyToMono(WeatherApiResponseDto.class)
                 .doOnNext(this::convertTempUnitToCelsius)
-                .single()
                 .block();
     }
 }

@@ -1,5 +1,6 @@
 package project.app.apns_server.modules.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class WeatherApiResponseDto {
 
     public static final double DEFAULT_KELVIN = 273.15;
@@ -26,13 +28,10 @@ public class WeatherApiResponseDto {
         return this.mainDto.temp;
     }
 
-    protected static class MainDto {
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    private static class MainDto {
 
         @JsonProperty("temp")
         private double temp; // kelvin
-
-        public MainDto(double temp) {
-            this.temp = temp;
-        }
     }
 }
