@@ -22,11 +22,6 @@
 - Lombok, WebFlux(webClient), Spring Scheduler, Spring-Retry
 - Docker
 
-## 참고
-- [[APNs 서버] 개발 환경 명세서](https://github.com/Si-Hyeak-KANG/Weather-island_APNs_springboot-server/wiki/%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD%EB%AA%85%EC%84%B8%EC%84%9C)
-- [날씨 OpenAPI](https://openweathermap.org/api/one-call-3#how)
-- [APNs docs](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/sending_notification_requests_to_apns)
-
 ---
 
 ## GET STARTED
@@ -36,3 +31,10 @@
 ### 2) API 명세서
 
 - https://documenter.getpostman.com/view/15157402/2sA2r9XPRY
+
+---
+
+## 참고링크
+- [[APNs 서버] 개발 환경 명세서](https://github.com/Si-Hyeak-KANG/Weather-island_APNs_springboot-server/wiki/%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD%EB%AA%85%EC%84%B8%EC%84%9C)
+- [날씨 OpenAPI](https://openweathermap.org/api/one-call-3#how)
+- [APNs docs](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/sending_notification_requests_to_apns)
