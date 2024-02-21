@@ -1,4 +1,4 @@
-package project.app.apns_server.modules.service;
+package project.app.apns_server.modules.service.cache;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

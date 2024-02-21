@@ -22,13 +22,16 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.retry:spring-retry'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.retry:spring-retry'
 
     // https://mvnrepository.com/artifact/com.turo/pushy
     implementation 'com.turo:pushy:0.13.9' // APNs 라이브러리
+    // https://mvnrepository.com/artifact/com.notnoop.apns/apns
+    implementation 'com.notnoop.apns:apns:0.2.3'
+
 
     // Unable to load io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider 문제 해결
     runtimeOnly 'io.netty:netty-resolver-dns-native-macos:4.1.104.Final:osx-aarch_64'

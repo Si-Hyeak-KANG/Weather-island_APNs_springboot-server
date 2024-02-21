@@ -1,4 +1,4 @@
-package project.app.apns_server.modules.service;
+package project.app.apns_server.modules.service.weather;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

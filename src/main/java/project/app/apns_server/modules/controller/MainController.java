@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import project.app.apns_server.global.dto.Response;
 import project.app.apns_server.modules.dto.AppInfoRequestDto;
 import project.app.apns_server.modules.dto.WeatherApiResponseDto;
-import project.app.apns_server.modules.service.AppInfoRedisService;
+import project.app.apns_server.modules.service.cache.AppInfoRedisService;
 import project.app.apns_server.modules.service.SchedulerTaskService;
-import project.app.apns_server.modules.service.WeatherSearchService;
+import project.app.apns_server.modules.service.weather.WeatherSearchService;
 import project.app.apns_server.modules.vo.AppInfoVo;
 
 @Slf4j
@@ -42,7 +42,6 @@ public class MainController {
                 log.info("create");
                 schedulerTaskService.startScheduler(appInfo.getDeviceToken());
             }
-
         }
 
         log.info("MainController success");

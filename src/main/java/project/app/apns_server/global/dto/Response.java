@@ -69,7 +69,7 @@ public class Response {
 
     private static class WeatherResponse {
 
-        @JsonProperty("temp")
+        @JsonProperty("temperature")
         private double temp;
 
         public WeatherResponse(AppInfoVo result) {

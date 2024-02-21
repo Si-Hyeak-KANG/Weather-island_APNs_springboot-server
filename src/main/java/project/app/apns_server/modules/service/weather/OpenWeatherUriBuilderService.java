@@ -1,4 +1,4 @@
-package project.app.apns_server.modules.service;
+package project.app.apns_server.modules.service.weather;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +14,7 @@ public class OpenWeatherUriBuilderService {
     //https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
     private static final String CURRENT_WEATHER_SEARCH_URL = "https://api.openweathermap.org/data/2.5/weather";
 
-    @Value("${openWeather.api.key}")
+    @Value("${open-weather.api.key}")
     private String openWeatherApiKey;
 
     public URI buildUriByLocation(double lat, double lon) {

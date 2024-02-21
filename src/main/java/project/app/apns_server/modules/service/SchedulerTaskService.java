@@ -8,6 +8,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.PeriodicTrigger;
 import org.springframework.stereotype.Service;
 import project.app.apns_server.modules.dto.WeatherApiResponseDto;
+import project.app.apns_server.modules.service.apns.ApplePushNotificationService;
+import project.app.apns_server.modules.service.cache.AppInfoRedisService;
+import project.app.apns_server.modules.service.weather.WeatherSearchService;
 import project.app.apns_server.modules.vo.AppInfoVo;
 
 import java.time.LocalDateTime;
@@ -22,8 +25,7 @@ public class SchedulerTaskService {
 
     private final AppInfoRedisService appInfoRedisService;
     private final WeatherSearchService weatherSearchService;
-
-    // TODO : APNs push 서비스 주입
+    private final ApplePushNotificationService applePushNotificationService;
 
     public void startScheduler(final String token) {
         scheduler.initialize();
@@ -56,6 +58,7 @@ public class SchedulerTaskService {
                         throw new RuntimeException(e);
                     }
                     // TODO APNs push
+                    applePushNotificationService.pushNotification(appInfoVo.getLiveActivityToken(), currTemp);
                 }
             } else {
                 log.warn("AppInfoVo가 null입니다.");
