@@ -1,52 +1,47 @@
 package project.app.apns_server.modules.service.apns;
 
-import com.turo.pushy.apns.*;
-import com.turo.pushy.apns.auth.ApnsSigningKey;
-import com.turo.pushy.apns.util.SimpleApnsPushNotification;
-import com.turo.pushy.apns.util.TokenUtil;
+import com.eatthepath.pushy.apns.ApnsClient;
+import com.eatthepath.pushy.apns.ApnsClientBuilder;
+import com.eatthepath.pushy.apns.ApnsPushNotification;
+import com.eatthepath.pushy.apns.PushNotificationResponse;
+import com.eatthepath.pushy.apns.auth.ApnsSigningKey;
+import com.eatthepath.pushy.apns.util.SimpleApnsPushNotification;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.FileInputStream;
-import java.util.Date;
-import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class TestApnsService {
 
-    private ApnsClient apnsClient;
 
-    private final static String TEAM_ID = "";
-    private final static String KEY_ID = "";
+    public static final String APNS_KEY_FILE_NAME = "APNsKey.p8";
+    private static final String TEAM_ID = "KZ7GPQGAGJ";
+    private static final String AUTH_KEY_ID = "4ZU8NK39ZW";
+
+    @Value("${apple.push.notification.app-bundle-id}")
+    private String APP_BUNDLE_ID;
+
+    private ApnsClient apnsClient;
 
     public TestApnsService() throws Exception {
         this.apnsClient = new ApnsClientBuilder()
                 .setApnsServer(ApnsClientBuilder.PRODUCTION_APNS_HOST)
                 .setSigningKey(
                         ApnsSigningKey.loadFromInputStream(
-                                new FileInputStream(""),
-                                TEAM_ID,
-                                KEY_ID)
+                                new FileInputStream(APNS_KEY_FILE_NAME), TEAM_ID, AUTH_KEY_ID)
                 )
                 .build();
     }
 
     public void pushNotification() throws InterruptedException {
         long timestamp = System.currentTimeMillis() / 1000;
-        String token = "";
-        String payload = "{\"aps\":{\"timestamp\":"+timestamp+",\"event\":\"update\",\"content-state\":{\"temperature\":10.0}}}";
-        ApnsPushNotification pushNotification = new SimpleApnsPushNotification(
-                TokenUtil.sanitizeTokenString(token),
-                "",
-                payload,
-               new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(1)),
-                DeliveryPriority.IMMEDIATE,
-                PushType.MDM,
-                "liveActivityUpdate",
-                UUID.fromString("")
-                );
+        String token = "e6a0876e456764f1de7cf4aab245f9cf595ca79c836d6f66f96da438f992b952";
+        String payload = "{\"aps\":{\"timestamp\":"+timestamp+",\"alert\":\"check\",\"event\":\"update\",\"content-state\":{\"temperature\":10.0}}}";
+        final SimpleApnsPushNotification pushNotification = new SimpleApnsPushNotification(token, APP_BUNDLE_ID, payload);
 
         Future<PushNotificationResponse<ApnsPushNotification>> sendNotificationFuture = this.apnsClient.sendNotification(pushNotification);
 
