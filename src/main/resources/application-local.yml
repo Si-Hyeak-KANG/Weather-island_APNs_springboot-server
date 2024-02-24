@@ -4,6 +4,12 @@ spring:
       host: localhost
       port: 6379
 
+apple:
+  push:
+    notification:
+      app-bundle-id: ${APP_BUNDLE_ID}
+
+
 logging:
   level:
     project.app.apns_server.modules : debug
