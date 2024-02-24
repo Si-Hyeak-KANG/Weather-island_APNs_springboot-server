@@ -1,16 +1,14 @@
 package project.app.apns_server.modules.service.apns;
 
-import com.eatthepath.pushy.apns.ApnsClient;
-import com.eatthepath.pushy.apns.ApnsClientBuilder;
-import com.eatthepath.pushy.apns.ApnsPushNotification;
-import com.eatthepath.pushy.apns.PushNotificationResponse;
+import com.eatthepath.pushy.apns.*;
 import com.eatthepath.pushy.apns.auth.ApnsSigningKey;
 import com.eatthepath.pushy.apns.util.SimpleApnsPushNotification;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.FileInputStream;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -39,9 +37,19 @@ public class TestApnsService {
 
     public void pushNotification() throws InterruptedException {
         long timestamp = System.currentTimeMillis() / 1000;
-        String token = "e6a0876e456764f1de7cf4aab245f9cf595ca79c836d6f66f96da438f992b952";
-        String payload = "{\"aps\":{\"timestamp\":"+timestamp+",\"alert\":\"check\",\"event\":\"update\",\"content-state\":{\"temperature\":10.0}}}";
-        final SimpleApnsPushNotification pushNotification = new SimpleApnsPushNotification(token, APP_BUNDLE_ID, payload);
+        String token = "40588fd3374a0c3e81a20e389983cbb9cad1b8910778422df4b99db12102ff70b04116279340c8f11dab0925af0c5c74b7bba4980784b9a0459192d504d1fff7548dea1c807ba778e7463f0b9a522249";
+        String payload = "{\"aps\":{\"timestamp\":"+timestamp+",\"event\":\"update\",\"content-state\":{\"temperature\":10.0}}}";
+        final SimpleApnsPushNotification pushNotification = new SimpleApnsPushNotification(
+                token,
+                APP_BUNDLE_ID,
+                payload,
+                Instant.now().plus(Duration.ofHours(1)),
+                DeliveryPriority.IMMEDIATE,
+                PushType.LIVE_ACTIVITY,
+                null,
+                null
+                );
+
 
         Future<PushNotificationResponse<ApnsPushNotification>> sendNotificationFuture = this.apnsClient.sendNotification(pushNotification);
 
