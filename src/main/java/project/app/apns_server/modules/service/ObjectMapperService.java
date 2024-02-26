@@ -16,7 +16,7 @@ public class ObjectMapperService {
 
     public String serializeApnRequestDto(ApnRequestDto dto){
         try {
-            return objectMapper.registerModule(new JavaTimeModule()).writeValueAsString(dto);
+            return objectMapper.writeValueAsString(dto);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -24,7 +24,7 @@ public class ObjectMapperService {
 
     public String serializeAppInfoVo(AppInfoVo info){
         try {
-            return objectMapper.registerModule(new JavaTimeModule()).writeValueAsString(info);
+            return objectMapper.writeValueAsString(info);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -32,7 +32,7 @@ public class ObjectMapperService {
 
     public AppInfoVo deserializeAppInfoVo(String value){
         try {
-            return objectMapper.registerModule(new JavaTimeModule()).readValue(value, AppInfoVo.class);
+            return objectMapper.readValue(value, AppInfoVo.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

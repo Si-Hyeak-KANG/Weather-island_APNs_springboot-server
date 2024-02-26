@@ -2,6 +2,8 @@ package project.app.apns_server.modules.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,16 +29,16 @@ public class AppInfoRequestDto {
     private String pushToken;
 
     @NotBlank(message = "APNs ID 미입력")
-    @Pattern(regexp = "\\b\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}\\b",
+    @Pattern(regexp = "^\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}$",
             message = "Canonical UUIDs are 32 lowercase hexadecimal digits, displayed in five groups separated by hyphens in the form 8-4-4-4-12. For example: 123e4567-e89b-12d3-a456-4266554400a0. ")
     @JsonProperty("apns_id")
     private String apnsId;
 
-    @NotBlank(message = "위도(lat) 미입력")
     @JsonProperty("lat")
-    private double latitude;
+    @NotNull(message = "위도(lat) 미입력")
+    private Double latitude;
 
-    @NotBlank(message = "경도(lon) 미입력")
     @JsonProperty("lon")
-    private double longitude;
+    @NotNull(message = "경도(lon) 미입력")
+    private Double longitude;
 }

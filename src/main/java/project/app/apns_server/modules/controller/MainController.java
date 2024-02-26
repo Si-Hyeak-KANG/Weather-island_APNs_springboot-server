@@ -1,6 +1,8 @@
 package project.app.apns_server.modules.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +26,7 @@ public class MainController {
     private final WeatherSearchService weatherSearchService;
 
     @PostMapping("/init/app/info")
-    public ResponseEntity<Response> saveAppAndWeatherInitInfo(@RequestBody AppInfoRequestDto appInfoRequest) {
+    public ResponseEntity<Response> saveAppAndWeatherInitInfo(@RequestBody @Valid AppInfoRequestDto appInfoRequest) {
 
         // 현재 앱의 위치에 맞는 날씨 조회
         WeatherApiResponseDto weatherInfo = weatherSearchService
