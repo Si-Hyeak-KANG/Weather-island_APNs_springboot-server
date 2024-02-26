@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import project.app.apns_server.modules.common.dto.Response;
 import project.app.apns_server.modules.dto.AppInfoRequestDto;
 import project.app.apns_server.modules.dto.WeatherApiResponseDto;
-import project.app.apns_server.modules.service.apns.TestApnsService;
 import project.app.apns_server.modules.service.cache.AppInfoRedisService;
 import project.app.apns_server.modules.service.scheduler.SchedulerTaskService;
 import project.app.apns_server.modules.service.weather.WeatherSearchService;
@@ -24,8 +23,6 @@ public class MainController {
     private final AppInfoRedisService appInfoRedisService;
     private final WeatherSearchService weatherSearchService;
 
-    private final TestApnsService apnsService;
-
     @PostMapping("/init/app/info")
     public ResponseEntity<Response> saveAppAndWeatherInitInfo(@RequestBody AppInfoRequestDto appInfoRequest) {
 
@@ -38,15 +35,5 @@ public class MainController {
         boolean isUpdate = appInfoRedisService.saveInfo(appInfo);
         if(!isUpdate) schedulerTaskService.startScheduler(appInfo.getDeviceToken());
         return new ResponseEntity<>(Response.success(appInfo), HttpStatus.CREATED);
-    }
-
-    @GetMapping("/test")
-    public ResponseEntity<String> apnsTest() {
-        try {
-            apnsService.pushNotification();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        return ResponseEntity.ok("success");
     }
 }

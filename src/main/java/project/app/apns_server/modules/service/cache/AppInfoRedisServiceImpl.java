@@ -57,8 +57,6 @@ public class AppInfoRedisServiceImpl implements AppInfoRedisService {
         }
     }
 
-
-
     private String serializeAppInfoVo(AppInfoVo info){
         try {
             return objectMapper.registerModule(new JavaTimeModule()).writeValueAsString(info);

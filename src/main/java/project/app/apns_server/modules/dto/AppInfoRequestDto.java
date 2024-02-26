@@ -19,8 +19,11 @@ public class AppInfoRequestDto {
     @JsonProperty("device_token")
     private String deviceToken;
 
-    @JsonProperty("live_activity_token")
-    private String LiveActivityToken;
+    @JsonProperty("push_token")
+    private String pushToken;
+
+    @JsonProperty("apns_id")
+    private String apnsId;
 
     @JsonProperty("lat")
     private double latitude;

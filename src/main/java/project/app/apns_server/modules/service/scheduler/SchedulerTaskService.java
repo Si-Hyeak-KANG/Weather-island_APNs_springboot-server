@@ -32,7 +32,7 @@ public class SchedulerTaskService {
     }
 
     private Trigger getTrigger() {
-        return new PeriodicTrigger(30, TimeUnit.MINUTES);
+        return new PeriodicTrigger(30, TimeUnit.SECONDS);
     }
 
     public Runnable checkWeatherCurrApp(final String deviceToken) {
@@ -43,14 +43,14 @@ public class SchedulerTaskService {
 
             WeatherApiResponseDto currWeather = weatherSearchService.requestCurrWeatherByLocation(appInfo.getLatitude(), appInfo.getLongitude());
             double pastTemp = appInfo.getTemp();
-            double currTemp = currWeather.getTemp();
+            double currTemp = currWeather.getTemp()+10;
             log.info("[SchedulerTaskService checkWeatherCurrApp] 30분전 온도 = {}, 현재 온도 = {} ", pastTemp, currTemp);
 
             if (comparePastToCurrTemp(pastTemp, currTemp)) {
                 log.info("[SchedulerTaskService checkWeatherCurrApp] 차이 발생");
                 appInfo.updateCurrTemp(currTemp);
                 appInfoRedisService.saveInfo(appInfo);
-                applePushNotificationService.pushNotification(appInfo.getLiveActivityToken(), currTemp);
+                applePushNotificationService.pushNotification(appInfo.getPushToken(), currTemp);
             }
         };
     }
