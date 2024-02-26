@@ -32,7 +32,7 @@ public class SchedulerTaskService {
     }
 
     private Trigger getTrigger() {
-        return new PeriodicTrigger(30, TimeUnit.SECONDS);
+        return new PeriodicTrigger(30, TimeUnit.MINUTES);
     }
 
     public Runnable checkWeatherCurrApp(final String deviceToken) {
