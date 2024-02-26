@@ -24,7 +24,7 @@ public class WeatherSearchWebFluxServiceImpl implements WeatherSearchService {
                 .uri(uri)
                 .retrieve()
                 .bodyToMono(WeatherApiResponseDto.class)
-                .doOnNext(this::convertTempUnitToCelsius)
+                .doOnNext(this::convertTemperature)
                 .doOnNext(response -> log.info("[WeatherSearchWebFluxServiceImpl requestCurrWeatherByLocation] success"))
                 .doOnNext(response -> log.debug("[WeatherSearchWebFluxServiceImpl requestCurrWeatherByLocation] response temp = {}", response.getTemp()))
                 .block();

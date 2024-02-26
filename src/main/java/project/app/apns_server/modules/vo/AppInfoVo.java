@@ -14,9 +14,9 @@ public class AppInfoVo {
     private String apnsId;
     private double latitude;
     private double longitude;
-    private double temp;
+    private long temp;
 
-    private AppInfoVo(String deviceToken, String pushToken, String apnsId, double latitude, double longitude, double temp) {
+    private AppInfoVo(String deviceToken, String pushToken, String apnsId, double latitude, double longitude, long temp) {
         this.deviceToken = deviceToken;
         this.pushToken = pushToken;
         this.apnsId = apnsId;

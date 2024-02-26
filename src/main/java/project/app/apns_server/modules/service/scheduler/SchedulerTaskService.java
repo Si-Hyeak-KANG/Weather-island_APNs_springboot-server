@@ -42,22 +42,22 @@ public class SchedulerTaskService {
             AppInfoVo appInfo = appInfoRedisService.findAppInfoByDeviceToken(deviceToken);
 
             WeatherApiResponseDto currWeather = weatherSearchService.requestCurrWeatherByLocation(appInfo.getLatitude(), appInfo.getLongitude());
-            double pastTemp = appInfo.getTemp();
-            double currTemp = currWeather.getTemp();
+            long pastTemp = appInfo.getTemp();
+            long currTemp = currWeather.getTemp();
             log.info("[SchedulerTaskService checkWeatherCurrApp] 30분전 온도 = {}, 현재 온도 = {} ", pastTemp, currTemp);
 
             if (comparePastToCurrTemp(pastTemp, currTemp)) {
                 log.info("[SchedulerTaskService checkWeatherCurrApp] 차이 발생");
                 appInfo.updateCurrTemp(currTemp);
                 appInfoRedisService.saveInfo(appInfo);
-                applePushNotificationService.pushNotification(appInfo.getPushToken(), currTemp);
+                applePushNotificationService.pushNotification(appInfo.getPushToken(), appInfo.getApnsId(), currTemp);
             }
         };
     }
 
-    // 반올림한 수가 1 or -1 이상 차이가 있으면 true
+    // 온도가 1 or -1 이상 차이가 있으면 true
     private boolean comparePastToCurrTemp(double pastTemp, double currTemp) {
-        return Math.round(currTemp) - Math.round(pastTemp) != 0;
+        return pastTemp - currTemp != 0;
     }
 
 }

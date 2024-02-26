@@ -29,7 +29,7 @@ public class ApplePushNotificationServiceImpl implements ApplePushNotificationSe
     private String APP_BUNDLE_ID;
 
     @Override
-    public Mono<Void> pushNotification(String pushToken, double temperature) {
+    public void pushNotification(String pushToken, String apnsId, long temperature) {
 
         ApnRequestDto dto = ApnRequestDto.of(
                 System.currentTimeMillis() / 1000,
@@ -71,7 +71,5 @@ public class ApplePushNotificationServiceImpl implements ApplePushNotificationSe
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
-        return Mono.empty();
     }
 }

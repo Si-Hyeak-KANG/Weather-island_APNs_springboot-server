@@ -28,7 +28,7 @@ public class WeatherSearchRestTemplateServiceImpl implements WeatherSearchServic
                         HttpEntity.EMPTY,
                         WeatherApiResponseDto.class).getBody();
 
-        convertTempUnitToCelsius(body);
+        convertTemperature(body);
         return body;
     }
 

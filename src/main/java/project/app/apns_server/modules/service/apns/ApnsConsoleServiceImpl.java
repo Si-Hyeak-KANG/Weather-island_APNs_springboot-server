@@ -12,14 +12,9 @@ import java.util.Map;
 public class ApnsConsoleServiceImpl implements ApplePushNotificationService {
 
     @Override
-    public Mono<Void> pushNotification(String liveActivityToken, double temp) {
+    public void pushNotification(String pushToken, String apnsId, long temp) {
 
-        log.debug("[ApnsConsoleServiceImpl pushNotification start] liveActivityToken = {}, temp = {}", liveActivityToken, temp);
+        log.debug("[ApnsConsoleServiceImpl pushNotification start] pushToken = {}, temp = {}", pushToken, temp);
         log.debug("ApnsConsoleServiceImpl pushNotification success");
-        return Mono.empty();
-    }
-
-    public Map<String, Double> getContentState(double temp) {
-        return Collections.singletonMap("temperature", temp);
     }
 }

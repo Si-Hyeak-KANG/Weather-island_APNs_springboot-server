@@ -82,7 +82,7 @@ public class Response {
     private static class WeatherResponse {
 
         @JsonProperty("temperature")
-        private double temp;
+        private long temp;
 
         public WeatherResponse(AppInfoVo result) {
             this.temp = result.getTemp();

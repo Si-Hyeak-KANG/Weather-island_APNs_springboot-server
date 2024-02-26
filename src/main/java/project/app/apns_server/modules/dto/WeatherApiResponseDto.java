@@ -24,8 +24,12 @@ public class WeatherApiResponseDto {
         this.mainDto.temp -= DEFAULT_KELVIN;
     }
 
-    public double getTemp() {
-        return this.mainDto.temp;
+    public void round() {
+        this.mainDto.temp = Math.round(this.mainDto.temp);
+    }
+
+    public long getTemp() {
+        return (long) this.mainDto.temp;
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)

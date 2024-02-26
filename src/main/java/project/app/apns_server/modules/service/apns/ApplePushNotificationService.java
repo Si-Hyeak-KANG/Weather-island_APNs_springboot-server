@@ -4,5 +4,5 @@ import reactor.core.publisher.Mono;
 
 public interface ApplePushNotificationService {
 
-    Mono<Void> pushNotification(String liveActivityToken, double temp);
+    void pushNotification(String pushToken, String apnsId, long temp);
 }
