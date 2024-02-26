@@ -43,7 +43,7 @@ public class SchedulerTaskService {
 
             WeatherApiResponseDto currWeather = weatherSearchService.requestCurrWeatherByLocation(appInfo.getLatitude(), appInfo.getLongitude());
             double pastTemp = appInfo.getTemp();
-            double currTemp = currWeather.getTemp()+10;
+            double currTemp = currWeather.getTemp();
             log.info("[SchedulerTaskService checkWeatherCurrApp] 30분전 온도 = {}, 현재 온도 = {} ", pastTemp, currTemp);
 
             if (comparePastToCurrTemp(pastTemp, currTemp)) {
