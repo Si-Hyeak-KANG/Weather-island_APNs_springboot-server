@@ -48,7 +48,7 @@ public class AppInfoVo {
         return apnsId.hashCode();
     }
 
-    public void updateCurrTemp(double currTemp) {
+    public void updateCurrTemp(long currTemp) {
         this.temp = currTemp;
     }
 }
