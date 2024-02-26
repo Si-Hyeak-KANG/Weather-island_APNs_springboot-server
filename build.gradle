@@ -34,6 +34,7 @@ dependencies {
 
     // Unable to load io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider 문제 해결
     runtimeOnly 'io.netty:netty-resolver-dns-native-macos:4.1.104.Final:osx-aarch_64'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.8'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
