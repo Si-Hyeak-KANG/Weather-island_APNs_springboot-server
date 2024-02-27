@@ -17,9 +17,11 @@
 
 ## 사용기술
 
-- Java, SpringBoot, Gradle
+- Java17, SpringBoot, Gradle
 - Redis
-- Lombok, WebFlux(webClient), Spring Scheduler, Spring-Retry
+- Lombok, WebFlux(webClient), Spring Scheduler, Spring-Retry, aop, validation
+- ObjectMapper
+- pushy(APNs)
 - Docker
 
 ---
