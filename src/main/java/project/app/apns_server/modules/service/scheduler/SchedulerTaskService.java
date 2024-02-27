@@ -54,7 +54,7 @@ public class SchedulerTaskService {
             log.info("[SchedulerTaskService checkWeatherCurrApp] 30분전 온도 = {}, 현재 온도 = {} ", pastTemp, currTemp);
 
             if (comparePastToCurrTemp(pastTemp, currTemp)) {
-                log.info("[SchedulerTaskService checkWeatherCurrApp] 차이 발생");
+                log.info("[SchedulerTaskService checkWeatherCurrApp] 30분 전 온도와 현재 온도 차이 발생!!");
                 appInfo.updateCurrTemp(currTemp);
                 appInfoRedisService.saveInfo(appInfo);
                 applePushNotificationService.pushNotification(appInfo.getPushToken(), appInfo.getApnsId(), currTemp);
@@ -63,7 +63,7 @@ public class SchedulerTaskService {
     }
 
     // 온도가 1 or -1 이상 차이가 있으면 true
-    private boolean comparePastToCurrTemp(double pastTemp, double currTemp) {
+    private boolean comparePastToCurrTemp(long pastTemp, long currTemp) {
         return pastTemp - currTemp != 0;
     }
 
