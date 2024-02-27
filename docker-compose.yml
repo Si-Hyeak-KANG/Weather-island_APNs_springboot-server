@@ -17,8 +17,10 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
       - OPEN_WEATHER_API_KEY=${OPEN_WEATHER_API_KEY}
-      - APPLE_AUTH_TOKEN=${APPLE_AUTH_TOKEN}
       - APP_BUNDLE_ID=${APP_BUNDLE_ID}
+      - APNS_KEY_FILE=${APNS_KEY_FILE}
+      - AUTH_KEY_ID=${AUTH_KEY_ID}
+      - TEAM_ID=${TEAM_ID}
     ports:
       - "8080:8080"
     restart: always
