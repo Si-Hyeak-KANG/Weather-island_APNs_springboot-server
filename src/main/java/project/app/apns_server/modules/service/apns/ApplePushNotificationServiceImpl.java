@@ -39,7 +39,7 @@ public class ApplePushNotificationServiceImpl implements ApplePushNotificationSe
         String payload = objectMapperService.serializeApnRequestDto(dto);
         final SimpleApnsPushNotification pushNotification = new SimpleApnsPushNotification(
                 pushToken,
-                APP_BUNDLE_ID,
+                APP_BUNDLE_ID + ".push-type.liveactivity",
                 payload,
                 Instant.now().plus(Duration.ofHours(1)),
                 DeliveryPriority.IMMEDIATE,

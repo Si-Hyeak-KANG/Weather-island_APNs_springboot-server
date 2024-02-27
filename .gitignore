@@ -1,6 +1,8 @@
 # Created by https://www.toptal.com/developers/gitignore/api/java,gradle,eclipse,macos,windows,intellij+all
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,gradle,eclipse,macos,windows,intellij+all
 
+./app/*
+
 ### Eclipse ###
 .metadata
 bin/
@@ -151,7 +153,7 @@ fabric.properties
 # that are supposed to be shared within teams.
 
 .env
-APNsKey.p8
+app/APNsKey.p8
 
 .idea/*
 .idea

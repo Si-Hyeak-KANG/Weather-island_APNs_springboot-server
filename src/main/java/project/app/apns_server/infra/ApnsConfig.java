@@ -15,8 +15,7 @@ import java.security.NoSuchAlgorithmException;
 @Configuration
 public class ApnsConfig {
 
-    @Value("${apple.push.notification.key-file}")
-    private String APNS_KEY_FILE;
+    private static final String APNS_KEY_FILE = "app/APNsKey.p8";
 
     @Value("${apple.push.notification.auth-key-id}")
     private String AUTH_KEY_ID;
