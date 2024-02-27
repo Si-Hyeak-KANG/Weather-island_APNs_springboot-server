@@ -54,13 +54,15 @@
     
   - app :
     
+    > `$NAME` 형태는 터미널에서 환경변수로 값 기입     
+
         docker run \
         --name weather-island-app \
         -e SPRING_PROFILES_ACTIVE=dev \
-        -e OPEN_WEATHER_API_KEY=${WEATHER_API_KEY} \
-        -e APP_BUNDLE_ID=${BUNDLE_ID} \
-        -e AUTH_KEY_ID=${AUTH_KEY_ID} \
-        -e TEAM_ID=${TEAM_ID} \
+        -e OPEN_WEATHER_API_KEY=$WEATHER_API_KEY \
+        -e APP_BUNDLE_ID=$BUNDLE_ID \
+        -e AUTH_KEY_ID=$AUTH_KEY_ID \
+        -e TEAM_ID=$TEAM_ID \
         -p 8081:8080 zlcls456/weather-island-app
 
 - 정상 실행 결과
