@@ -32,8 +32,8 @@ public class AppInfoRedisServiceImpl implements AppInfoRedisService {
     public boolean saveInfo(final AppInfoVo info){
         boolean isUpdate = isAlreadyExistField(info.getDeviceToken());
         hashOperations.put(APP_INFO_KEY, info.getDeviceToken(), objectMapperService.serializeAppInfoVo(info));
-        if(isUpdate) log.info("[AppInfoRedisServiceImpl saveInfo] (Device token= {}) 기존에 있던 앱의 정보를 갱신했습니다.", info.getDeviceToken());
-        else log.info("[AppInfoRedisServiceImpl saveInfo] (Device token= {}) 앱의 정보를 캐시에 저장했습니다.", info.getDeviceToken());
+        if(isUpdate) log.info("[AppInfoRedisServiceImpl saveInfo] (update) 기존에 있던 앱의 정보를 갱신했습니다.");
+        else log.info("[AppInfoRedisServiceImpl saveInfo] (create) 새로운 앱의 정보를 캐시에 저장했습니다.");
         return isUpdate;
     }
 
