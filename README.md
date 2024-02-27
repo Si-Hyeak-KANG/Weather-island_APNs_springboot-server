@@ -8,6 +8,7 @@
 
 ---
 
+
 ## 요구사항
 
 - (앱, 사용자 위치, 날씨) 정보 저장 API 구현
@@ -25,9 +26,14 @@
 
 ---
 
+
 ## GET STARTED
 
-### 1) [Docker] 통합 개발 서버 실행
+### 1) API 명세서
+
+- https://documenter.getpostman.com/view/15157402/2sA2r9XPRY
+  
+### 2) [Docker] 통합 개발 서버 실행
 
 > 터미널에서 진행
 
@@ -64,10 +70,6 @@
 - api 요청 테스트
   - host : 0.0.0.0
   - port : 8081 
-
-### 2) API 명세서
-
-- https://documenter.getpostman.com/view/15157402/2sA2r9XPRY
 
 ---
 
