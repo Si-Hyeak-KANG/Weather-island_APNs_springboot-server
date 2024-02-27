@@ -2,6 +2,7 @@ package project.app.apns_server.modules.service.scheduler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.PeriodicTrigger;
@@ -20,6 +21,12 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class SchedulerTaskService {
 
+    @Value("${weather.search.scheduler.period}")
+    private Long period;
+
+    @Value("${weather.search.scheduler.time-unit}")
+    private String timeUnit;
+
     private final ThreadPoolTaskScheduler scheduler;
 
     private final AppInfoRedisServiceImpl appInfoRedisService;
@@ -32,7 +39,7 @@ public class SchedulerTaskService {
     }
 
     private Trigger getTrigger() {
-        return new PeriodicTrigger(30, TimeUnit.MINUTES);
+        return new PeriodicTrigger(period, TimeUnit.valueOf(timeUnit));
     }
 
     public Runnable checkWeatherCurrApp(final String deviceToken) {
@@ -43,7 +50,7 @@ public class SchedulerTaskService {
 
             WeatherApiResponseDto currWeather = weatherSearchService.requestCurrWeatherByLocation(appInfo.getLatitude(), appInfo.getLongitude());
             long pastTemp = appInfo.getTemp();
-            long currTemp = currWeather.getTemp();
+            long currTemp = Math.round(currWeather.getMainDto().getTemp());
             log.info("[SchedulerTaskService checkWeatherCurrApp] 30분전 온도 = {}, 현재 온도 = {} ", pastTemp, currTemp);
 
             if (comparePastToCurrTemp(pastTemp, currTemp)) {
