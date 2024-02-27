@@ -2,10 +2,10 @@ package project.app.apns_server.modules.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import project.app.apns_server.modules.service.apns.dto.ApnRequestDto;
+import project.app.apns_server.modules.dto.WeatherApiResponseDto;
+import project.app.apns_server.modules.dto.ApnRequestDto;
 import project.app.apns_server.modules.vo.AppInfoVo;
 
 @Service
@@ -22,9 +22,9 @@ public class ObjectMapperService {
         }
     }
 
-    public String serializeAppInfoVo(AppInfoVo info){
+    public String serializeAppInfoVo(AppInfoVo dto){
         try {
-            return objectMapper.writeValueAsString(info);
+            return objectMapper.writeValueAsString(dto);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -38,4 +38,11 @@ public class ObjectMapperService {
         }
     }
 
+    public String serializeWeatherApiResponseDto(WeatherApiResponseDto dto) {
+        try {
+            return objectMapper.writeValueAsString(dto);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

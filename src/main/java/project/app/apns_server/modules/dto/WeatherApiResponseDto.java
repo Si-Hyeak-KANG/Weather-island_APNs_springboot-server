@@ -2,9 +2,7 @@ package project.app.apns_server.modules.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * @OPEN-API-REFERENCE : https://openweathermap.org/current
@@ -15,27 +13,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WeatherApiResponseDto {
 
-    public static final double DEFAULT_KELVIN = 273.15;
-
     @JsonProperty("main")
-    private MainDto mainDto;
+    private WeatherMainDto mainDto;
 
-    public void convertToCelsius() {
-        this.mainDto.temp -= DEFAULT_KELVIN;
-    }
-
-    public void round() {
-        this.mainDto.temp = Math.round(this.mainDto.temp);
-    }
-
-    public long getTemp() {
-        return (long) this.mainDto.temp;
-    }
-
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    private static class MainDto {
-
-        @JsonProperty("temp")
-        private double temp; // kelvin
-    }
 }

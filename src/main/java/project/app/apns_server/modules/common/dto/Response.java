@@ -25,6 +25,9 @@ public class Response {
     @JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
     private LocalDateTime responseTime;
 
+    @JsonProperty("message")
+    private String message;
+
     @JsonProperty("errors")
     private Object errors;
 
@@ -42,6 +45,14 @@ public class Response {
                 .responseTime(LocalDateTime.now())
                 .appResponse(app)
                 .weatherResponse(weather)
+                .build();
+    }
+
+    public static Response success(String msg) {
+        return Response.builder()
+                .status(Status.success)
+                .responseTime(LocalDateTime.now())
+                .message(msg)
                 .build();
     }
 

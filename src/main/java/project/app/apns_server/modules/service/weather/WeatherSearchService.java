@@ -11,8 +11,7 @@ public interface WeatherSearchService {
             maxAttempts = 2, backoff = @Backoff(delay = 2000))
     WeatherApiResponseDto requestCurrWeatherByLocation(double lat, double lon);
 
-    default void convertTemperature(WeatherApiResponseDto body) {
-        body.convertToCelsius();
-        body.round();
+    default void convertTemperatureUnit(WeatherApiResponseDto body) {
+        body.getMainDto().convertToCelsius();
     }
 }

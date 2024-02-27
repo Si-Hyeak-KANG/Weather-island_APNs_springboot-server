@@ -24,7 +24,6 @@ public class OpenWeatherUriBuilderService {
         uriBuilder.queryParam("lon",lon);
         uriBuilder.queryParam("appid",openWeatherApiKey);
 
-        URI uri = uriBuilder.build().encode().toUri();
-        return uri;
+        return uriBuilder.build().encode().toUri();
     }
 }
