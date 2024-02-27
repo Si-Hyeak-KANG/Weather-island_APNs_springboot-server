@@ -19,8 +19,7 @@
 
 - Java17, SpringBoot, Gradle
 - Redis
-- Lombok, WebFlux(webClient), Spring Scheduler, Spring-Retry, aop, validation
-- ObjectMapper
+- Lombok, WebFlux(webClient), Spring Scheduler, Spring-Retry, aop, validation, ObjectMapper
 - pushy(APNs)
 - Docker
 
