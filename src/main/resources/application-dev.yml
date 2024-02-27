@@ -8,11 +8,19 @@ open-weather:
     api:
       key: ${OPEN_WEATHER_API_KEY}
 
+weather:
+  search:
+    scheduler:
+      period: 30
+      time-unit: MINUTES
+
 apple:
   push:
     notification:
-      auth-token: ${APPLE_AUTH_TOKEN}
       app-bundle-id: ${APP_BUNDLE_ID}
+      key-file: ${APNS_KEY_FILE}
+      auth-key-id: ${AUTH_KEY_ID}
+      team-id: ${TEAM_ID}
 
 logging:
   level:
