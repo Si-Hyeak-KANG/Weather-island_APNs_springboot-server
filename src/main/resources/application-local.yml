@@ -8,12 +8,6 @@ open-weather:
   api:
     key: ${OPEN_WEATHER_API_KEY}
 
-weather:
-  search:
-    scheduler:
-      period: 30
-      time-unit: SECONDS
-
 apple:
   push:
     notification:
