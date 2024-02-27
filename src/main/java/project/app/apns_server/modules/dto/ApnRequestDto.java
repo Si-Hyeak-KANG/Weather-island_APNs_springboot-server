@@ -1,4 +1,4 @@
-package project.app.apns_server.modules.service.apns.dto;
+package project.app.apns_server.modules.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;

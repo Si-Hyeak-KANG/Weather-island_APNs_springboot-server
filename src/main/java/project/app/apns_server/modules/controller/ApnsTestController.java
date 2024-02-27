@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import project.app.apns_server.modules.common.dto.Response;
 import project.app.apns_server.modules.dto.ApnsTestRequestDto;
 import project.app.apns_server.modules.service.apns.ApplePushNotificationService;
 
@@ -17,13 +18,12 @@ import project.app.apns_server.modules.service.apns.ApplePushNotificationService
 @RequiredArgsConstructor
 public class ApnsTestController {
 
-    private final ApplePushNotificationService pushNotificationService;
+    private final ApplePushNotificationService applePushNotificationService;
 
     @PostMapping("/update/live-activity")
-    public ResponseEntity<String> liveActivityUpdateTest(@RequestBody @Valid ApnsTestRequestDto apnsTestRequestDto) {
-
+    public ResponseEntity<Response> liveActivityUpdateTest(@RequestBody @Valid ApnsTestRequestDto apnsTestRequestDto) {
         long tempTemperature = 100;
-        pushNotificationService.pushNotification(apnsTestRequestDto.getPushToken(), apnsTestRequestDto.getApnsId(), tempTemperature);
-        return ResponseEntity.ok("Push notification accepted by APNs gateway.");
+        applePushNotificationService.pushNotification(apnsTestRequestDto.getPushToken(), apnsTestRequestDto.getApnsId(), tempTemperature);
+        return ResponseEntity.ok(Response.success("Push notification accepted by APNs gateway."));
     }
 }

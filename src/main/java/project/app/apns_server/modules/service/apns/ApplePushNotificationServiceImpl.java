@@ -7,8 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import project.app.apns_server.modules.service.ObjectMapperService;
-import project.app.apns_server.modules.service.apns.dto.ApnRequestDto;
-import reactor.core.publisher.Mono;
+import project.app.apns_server.modules.dto.ApnRequestDto;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -46,7 +45,7 @@ public class ApplePushNotificationServiceImpl implements ApplePushNotificationSe
                 DeliveryPriority.IMMEDIATE,
                 PushType.LIVE_ACTIVITY,
                 "liveActivityUpdate",
-                UUID.fromString("423C6AE3-0EFB-48AD-B721-FDE7BEAC8CEB")
+                UUID.fromString(apnsId)
         );
 
         Future<PushNotificationResponse<ApnsPushNotification>> sendNotificationFuture = apnsClient.sendNotification(pushNotification);
@@ -55,21 +54,22 @@ public class ApplePushNotificationServiceImpl implements ApplePushNotificationSe
             final PushNotificationResponse<ApnsPushNotification> pushNotificationResponse = sendNotificationFuture.get();
 
             if (pushNotificationResponse.isAccepted()) {
-                System.out.println("Push notification accepted by APNs gateway.");
+                log.info("[success] Push notification accepted by APNs gateway.");
             } else {
-                System.out.println("Notification rejected by the APNs gateway: " +
-                        pushNotificationResponse.getRejectionReason());
+                String message = "Notification rejected by the APNs gateway: " + pushNotificationResponse.getRejectionReason();
 
                 if (pushNotificationResponse.getTokenInvalidationTimestamp().isPresent()) {
-                    System.out.println("\t…and the token is invalid as of " +
+
+                    message.concat("\t…and the token is invalid as of " +
                             pushNotificationResponse.getTokenInvalidationTimestamp());
                 }
+
+                throw new IllegalArgumentException(message);
             }
         } catch (final ExecutionException e) {
-            System.err.println("Failed to send push notification.");
-            e.printStackTrace();
+            throw new IllegalArgumentException("Failed to send push notification.");
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 }
