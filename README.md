@@ -50,7 +50,7 @@
 > if) 만약 제대로 실행되지 않는다면, `\` 제거 후 한줄로 입력해주세요. 또한 오타가 없는지 확인해주세요.
   - redis :
 
-        docker run --name weather-island-redis -d -p 6380:6379 zlcls456/weather-island-redis`
+        docker run --name weather-island-redis -d -p 6380:6379 zlcls456/weather-island-redis
     
   - app :
     
