@@ -36,7 +36,7 @@ public class ApplePushNotificationServiceImpl implements ApplePushNotificationSe
     private String APP_BUNDLE_ID;
 
     @Override
-    public void pushNotification(String pushToken, String apnsId, long temperature) {
+    public void pushNotification(String pushToken, String apnsId, String temperature) {
 
         log.info("[ApplePushNotificationServiceImpl pushNotification] Push Notification 전송!!!!!!!");
 

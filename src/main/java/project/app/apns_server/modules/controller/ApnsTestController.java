@@ -22,7 +22,7 @@ public class ApnsTestController {
 
     @PostMapping("/update/live-activity")
     public ResponseEntity<Response> liveActivityUpdateTest(@RequestBody @Valid ApnsTestRequestDto apnsTestRequestDto) {
-        long tempTemperature = 100;
+        String tempTemperature = "100";
         applePushNotificationService.pushNotification(apnsTestRequestDto.getPushToken(), apnsTestRequestDto.getApnsId(), tempTemperature);
         return ResponseEntity.ok(Response.success("[success] Push Notification 전송을 성공하였습니다."));
     }
