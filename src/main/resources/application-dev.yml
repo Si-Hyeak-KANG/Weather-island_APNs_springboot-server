@@ -1,3 +1,6 @@
+server:
+  port: 8081
+
 spring:
   data:
     redis:
@@ -23,4 +26,4 @@ apple:
 
 logging:
   level:
-    project.app.apns_server.modules : debug
+    project.app.apns_server.modules : info
