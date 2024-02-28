@@ -8,12 +8,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import project.app.apns_server.modules.common.exception.exceptionCode.BusinessLogicException;
+import project.app.apns_server.modules.common.exception.exceptionCode.ExceptionCode;
 import project.app.apns_server.modules.service.ObjectMapperService;
 import project.app.apns_server.modules.dto.ApnRequestDto;
+import project.app.apns_server.modules.service.cache.AppInfoRedisService;
+import project.app.apns_server.modules.service.cache.AppInfoRedisServiceImpl;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Collections;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -25,6 +30,7 @@ public class ApplePushNotificationServiceImpl implements ApplePushNotificationSe
 
     private final ApnsClient apnsClient;
     private final ObjectMapperService objectMapperService;
+    private final AppInfoRedisService appInfoRedisService;
 
     @Value("${apple.push.notification.app-bundle-id}")
     private String APP_BUNDLE_ID;
@@ -53,27 +59,26 @@ public class ApplePushNotificationServiceImpl implements ApplePushNotificationSe
         );
 
         Future<PushNotificationResponse<ApnsPushNotification>> sendNotificationFuture = apnsClient.sendNotification(pushNotification);
-
         try {
             final PushNotificationResponse<ApnsPushNotification> pushNotificationResponse = sendNotificationFuture.get();
 
             if (pushNotificationResponse.isAccepted()) {
-                log.info("[success] Push notification accepted by APNs gateway.");
+                log.info("[success] Push Notification 전송을 성공하였습니다.");
             } else {
-                String message = "Notification rejected by the APNs gateway: " + pushNotificationResponse.getRejectionReason();
+
+                Optional<String> reason = pushNotificationResponse.getRejectionReason();
+                BusinessLogicException exception = new BusinessLogicException(ExceptionCode.APNS_PUSH_NOTIFICATION_FAIL, reason.get());
 
                 if (pushNotificationResponse.getTokenInvalidationTimestamp().isPresent()) {
-
-                    message.concat("\t…and the token is invalid as of " +
-                            pushNotificationResponse.getTokenInvalidationTimestamp());
+                    exception = new BusinessLogicException(ExceptionCode.APNS_PUSH_TOKEN_EXPIRED, "만료날짜: " + String.valueOf(pushNotificationResponse.getTokenInvalidationTimestamp().get()));
                 }
-
-                throw new IllegalArgumentException(message);
+                appInfoRedisService.deleteDeviceByPushToken(pushToken);
+                throw exception;
             }
         } catch (final ExecutionException e) {
-            throw new IllegalArgumentException("Failed to send push notification.");
+            throw new BusinessLogicException(ExceptionCode.APNS_PUSH_NOTIFICATION_FAIL, e.getMessage());
         } catch (InterruptedException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            throw new BusinessLogicException(ExceptionCode.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 }

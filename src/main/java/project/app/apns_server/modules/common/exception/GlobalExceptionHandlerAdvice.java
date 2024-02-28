@@ -4,11 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import project.app.apns_server.modules.common.dto.Response;
+import project.app.apns_server.modules.common.exception.exceptionCode.BusinessLogicException;
 import project.app.apns_server.modules.common.exception.exceptionCode.ExceptionCode;
 
 import java.util.List;
@@ -16,6 +18,20 @@ import java.util.List;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandlerAdvice {
+
+    @ExceptionHandler(BusinessLogicException.class)
+    public ResponseEntity<Response> handleBusinessLogicException(BusinessLogicException e) {
+        ExceptionCode error = e.getExceptionCode();
+        log.error("[{}] {}", error.name(), error.getMessage());
+        final ErrorsResponse response = ErrorsResponse.of(error);
+
+        String errorMessage = e.getErrorMessage();
+        if(errorMessage.length()!=0) log.error("error reason = {}", errorMessage);
+        response.addReason(errorMessage);
+
+        return new ResponseEntity<>(
+                Response.fail(response), error.getHttpStatus());
+    }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler
