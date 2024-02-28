@@ -55,7 +55,7 @@ public class SchedulerTaskService {
             log.info("[SchedulerTaskService checkWeatherCurrApp] 30분전 온도 = {}, 현재 온도 = {} ", pastTemp, currTemp);
 
             if (isTemperatureDifference(pastTemp, currTemp)) {
-                log.info("[SchedulerTaskService checkWeatherCurrApp] 30분 전 온도와 현재 온도 차이 발생!!");
+                log.info("[SchedulerTaskService checkWeatherCurrApp] 30분전 온도와 현재 온도 차이가 발생했습니다.");
                 appInfo.updateCurrTemp(currTemp);
                 appInfoRedisService.saveInfo(appInfo);
                 eventPublisher.publishEvent(PushNotificationEventDto.of(appInfo.getPushToken(), appInfo.getApnsId(), currTemp));
