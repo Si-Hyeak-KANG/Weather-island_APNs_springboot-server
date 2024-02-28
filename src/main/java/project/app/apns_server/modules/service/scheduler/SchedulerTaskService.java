@@ -3,12 +3,13 @@ package project.app.apns_server.modules.service.scheduler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.PeriodicTrigger;
 import org.springframework.stereotype.Service;
 import project.app.apns_server.modules.dto.WeatherApiResponseDto;
-import project.app.apns_server.modules.service.apns.ApplePushNotificationService;
+import project.app.apns_server.modules.evnet.PushNotificationEventDto;
 import project.app.apns_server.modules.service.cache.AppInfoRedisServiceImpl;
 import project.app.apns_server.modules.service.weather.WeatherSearchService;
 import project.app.apns_server.modules.vo.AppInfoVo;
@@ -31,7 +32,7 @@ public class SchedulerTaskService {
 
     private final AppInfoRedisServiceImpl appInfoRedisService;
     private final WeatherSearchService weatherSearchService;
-    private final ApplePushNotificationService applePushNotificationService;
+    private final ApplicationEventPublisher eventPublisher;
 
     public void startScheduler(final String deviceToken) {
         scheduler.initialize();
@@ -53,17 +54,17 @@ public class SchedulerTaskService {
             long currTemp = Math.round(currWeather.getMainDto().getTemp());
             log.info("[SchedulerTaskService checkWeatherCurrApp] 30분전 온도 = {}, 현재 온도 = {} ", pastTemp, currTemp);
 
-            if (comparePastToCurrTemp(pastTemp, currTemp)) {
+            if (isTemperatureDifference(pastTemp, currTemp)) {
                 log.info("[SchedulerTaskService checkWeatherCurrApp] 30분 전 온도와 현재 온도 차이 발생!!");
                 appInfo.updateCurrTemp(currTemp);
                 appInfoRedisService.saveInfo(appInfo);
-                applePushNotificationService.pushNotification(appInfo.getPushToken(), appInfo.getApnsId(), currTemp);
+                eventPublisher.publishEvent(PushNotificationEventDto.of(appInfo.getPushToken(), appInfo.getApnsId(), currTemp));
             }
         };
     }
 
     // 온도가 1 or -1 이상 차이가 있으면 true
-    private boolean comparePastToCurrTemp(long pastTemp, long currTemp) {
+    private boolean isTemperatureDifference(long pastTemp, long currTemp) {
         return pastTemp - currTemp != 0;
     }
 

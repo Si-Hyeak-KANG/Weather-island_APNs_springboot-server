@@ -5,6 +5,8 @@ import com.eatthepath.pushy.apns.util.SimpleApnsPushNotification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import project.app.apns_server.modules.service.ObjectMapperService;
 import project.app.apns_server.modules.dto.ApnRequestDto;
@@ -30,7 +32,7 @@ public class ApplePushNotificationServiceImpl implements ApplePushNotificationSe
     @Override
     public void pushNotification(String pushToken, String apnsId, long temperature) {
 
-        log.info("[ApplePushNotificationServiceImpl pushNotification] Push Notification send./");
+        log.info("[ApplePushNotificationServiceImpl pushNotification] Push Notification 전송!!!!!!!");
 
         ApnRequestDto dto = ApnRequestDto.of(
                 System.currentTimeMillis() / 1000,

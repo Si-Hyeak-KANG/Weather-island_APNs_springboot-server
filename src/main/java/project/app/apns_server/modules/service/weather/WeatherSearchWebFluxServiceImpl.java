@@ -19,7 +19,6 @@ public class WeatherSearchWebFluxServiceImpl implements WeatherSearchService {
 
     private final WebClient.Builder webClientBuilder;
     private final OpenWeatherUriBuilderService openWeatherUriBuilderService;
-    private final ObjectMapperService objectMapperService;
 
     public WeatherApiResponseDto requestCurrWeatherByLocation(double lat, double lon) {
         URI uri = openWeatherUriBuilderService.buildUriByLocation(lat, lon);
@@ -31,6 +30,7 @@ public class WeatherSearchWebFluxServiceImpl implements WeatherSearchService {
                 .doOnNext(this::convertTemperatureUnit)
                 .doOnNext(response -> log.info("[WeatherSearchWebFluxServiceImpl requestCurrWeatherByLocation] 날씨 조회 성공"))
                 .doOnNext(response -> log.debug("[WeatherSearchWebFluxServiceImpl requestCurrWeatherByLocation] 날씨 조회 결과, 온도 = {}", response.getMainDto().getTemp()))
+                .doOnError(response -> log.error("날씨 조회를 실패하였습니다.(message={})", response.getMessage()))
                 .block();
     }
 }
