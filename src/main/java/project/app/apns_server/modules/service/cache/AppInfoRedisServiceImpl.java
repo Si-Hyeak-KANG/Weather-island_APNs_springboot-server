@@ -6,10 +6,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import project.app.apns_server.modules.common.exception.exceptionCode.BusinessLogicException;
+import project.app.apns_server.modules.common.exception.exceptionCode.ExceptionCode;
 import project.app.apns_server.modules.service.ObjectMapperService;
 import project.app.apns_server.modules.vo.AppInfoVo;
 
-import java.util.NoSuchElementException;
+import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -49,9 +52,32 @@ public class AppInfoRedisServiceImpl implements AppInfoRedisService {
         return objectMapperService.deserializeAppInfoVo(data);
     }
 
+    @Override
+    public void deleteDeviceByPushToken(String pushToken) {
+        String pushTokenRegex = ".*"+pushToken+".*";
+
+        Optional<Map.Entry<String, String>> result = findDeviceByPushToken(pushTokenRegex);
+
+        result.ifPresent(entry -> {
+            hashOperations.delete(APP_INFO_KEY, entry.getKey());
+            log.info("성공적으로 Push 토큰에 해당하는 디바이스 정보를 캐시에서 삭제했습니다.");
+            log.info("삭제된 Device token : {}", entry.getKey());
+            log.info("Matched Value : {}", entry.getValue());
+        });
+
+        if (result.isEmpty()) log.info("Push 토큰에 해당하는 디바이스가 없기 때문에 캐시에서 삭제를 하지 않습니다.");
+    }
+
+    private Optional<Map.Entry<String, String>> findDeviceByPushToken(String regex) {
+        return hashOperations.entries(APP_INFO_KEY).entrySet().stream()
+                .filter(entry -> entry.getValue().matches(regex))
+                .findFirst();
+    }
+
     private void validDeviceToken(String deviceToken) {
         if (!hashOperations.hasKey(APP_INFO_KEY, deviceToken)) {
-            throw new NoSuchElementException(deviceToken + " 에 해당하는 데이터를 찾을 수 없습니다.");
+            log.debug("[validDeviceToken] deviceToken : {}", deviceToken);
+            throw new BusinessLogicException(ExceptionCode.RESOURCE_NOT_FOUND);
         }
     }
 
