@@ -9,31 +9,32 @@
 ---
 
 
-## 요구사항
+### 요구사항
 
 - (앱, 사용자 위치, 날씨) 정보 저장 API 구현
 - 일정 주기 날씨 변동 체크 기능 구현
 - 날씨 변경 내용 APNs 전송 기능 구현
 - LiveActivity 토큰 폐기 API 구현
 
-## 사용기술
+### 사용기술
 
 - Java17, SpringBoot, Gradle
 - Redis
 - Lombok, WebFlux(webClient), Spring Scheduler, Spring-Retry, aop, validation, ObjectMapper
-- pushy(APNs)
+- [eatthepath.pushy(APNs)](https://github.com/jchambers/pushy)
 - Docker
 
----
+### API 명세서
 
-
-## GET STARTED
-
-### 1) API 명세서
-
+- 문서화 툴 : Postman
 - https://documenter.getpostman.com/view/15157402/2sA2r9XPRY
+
+---
+<br>
+
+# GET STARTED
   
-### 2) [Docker] 통합 개발 서버 실행
+## [Docker] 통합 개발 서버 실행
 
 > 터미널에서 진행
 
