@@ -34,7 +34,7 @@
 
 # GET STARTED
   
-## [Docker] 통합 개발 서버 실행
+### [Docker] 통합 개발 서버 실행
 
 > 터미널에서 진행
 
