@@ -20,4 +20,12 @@ public class WeatherMainDto {
     public void convertToCelsius() {
         this.temp -= DEFAULT_KELVIN;
     }
+
+    public void round() {
+        this.temp=Math.round(this.temp);
+    }
+
+    public void ceil() {
+        this.temp=Math.ceil(this.temp);
+    }
 }

@@ -31,7 +31,7 @@ public class AppInfoVo {
                 appInfo.getApnsId(),
                 appInfo.getLatitude(),
                 appInfo.getLongitude(),
-                Math.round(weatherInfo.getMainDto().getTemp()) // 온도 소수점 반올림
+                (long) (weatherInfo.getMainDto().getTemp()) // 온도 소수점 올림
         );
     }
 

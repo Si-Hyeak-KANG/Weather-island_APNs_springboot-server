@@ -28,7 +28,7 @@ public class WeatherSearchConsoleServiceImpl implements WeatherSearchService {
         convertTemperatureUnit(body);
         log.info("[requestCurrWeatherByLocation] 날씨 조회 결과");
         log.info("[requestCurrWeatherByLocation] body = {}", objectMapperService.serializeWeatherApiResponseDto(body));
-        log.info("[requestCurrWeatherByLocation] 온도 = {}", body.getMainDto().getTemp()); // 0도
+        log.info("[requestCurrWeatherByLocation] 온도 = {}°C", body.getMainDto().getTemp()); // 0도
         return body;
     }
 

@@ -23,6 +23,7 @@ public class OpenWeatherUriBuilderService {
         uriBuilder.queryParam("lat",lat);
         uriBuilder.queryParam("lon",lon);
         uriBuilder.queryParam("appid",openWeatherApiKey);
+        uriBuilder.queryParam("units","metric");
 
         return uriBuilder.build().encode().toUri();
     }

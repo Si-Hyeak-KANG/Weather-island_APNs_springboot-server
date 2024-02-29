@@ -52,7 +52,8 @@ public class SchedulerTaskService {
             WeatherApiResponseDto currWeather = weatherSearchService.requestCurrWeatherByLocation(appInfo.getLatitude(), appInfo.getLongitude());
             long pastTemp = appInfo.getTemp();
             long currTemp = Math.round(currWeather.getMainDto().getTemp());
-            log.info("[checkWeatherCurrApp] {}{} 전 온도 = {}, 현재 온도 = {} ",period, getTimeUnit(), pastTemp, currTemp);
+            log.info("\n \t [checkWeatherCurrApp] Device 토큰 = {} \n \t [checkWeatherCurrApp] Push 토큰 = {}", appInfo.getDeviceToken(), appInfo.getPushToken());
+            log.info("[checkWeatherCurrApp] {}{} 전 온도 = {}°C, 현재 온도 = {}°C ",period, getTimeUnit(), pastTemp, currTemp);
 
             if (isTemperatureDifference(pastTemp, currTemp)) {
                 log.info("[checkWeatherCurrApp] {}{} 전 온도와 현재 온도 차이가 발생했습니다.", period, getTimeUnit());

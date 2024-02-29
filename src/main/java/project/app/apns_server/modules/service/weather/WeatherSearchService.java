@@ -5,13 +5,10 @@ import org.springframework.retry.annotation.Retryable;
 import project.app.apns_server.modules.dto.WeatherApiResponseDto;
 
 public interface WeatherSearchService {
-
-    @Retryable(
-            value = {RuntimeException.class},
-            maxAttempts = 2, backoff = @Backoff(delay = 2000))
     WeatherApiResponseDto requestCurrWeatherByLocation(double lat, double lon);
 
     default void convertTemperatureUnit(WeatherApiResponseDto body) {
-        body.getMainDto().convertToCelsius();
+        //body.getMainDto().convertToCelsius();
+        body.getMainDto().round();
     }
 }

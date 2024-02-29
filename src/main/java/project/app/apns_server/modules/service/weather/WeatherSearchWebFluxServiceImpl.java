@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import project.app.apns_server.modules.dto.WeatherApiResponseDto;
@@ -19,6 +21,9 @@ public class WeatherSearchWebFluxServiceImpl implements WeatherSearchService {
     private final WebClient.Builder webClientBuilder;
     private final OpenWeatherUriBuilderService openWeatherUriBuilderService;
 
+    @Retryable(
+            value = {RuntimeException.class},
+            maxAttempts = 2, backoff = @Backoff(delay = 2000))
     public WeatherApiResponseDto requestCurrWeatherByLocation(double lat, double lon) {
         URI uri = openWeatherUriBuilderService.buildUriByLocation(lat, lon);
         return webClientBuilder.build()
@@ -26,9 +31,9 @@ public class WeatherSearchWebFluxServiceImpl implements WeatherSearchService {
                 .uri(uri)
                 .retrieve()
                 .bodyToMono(WeatherApiResponseDto.class)
-                .doOnNext(this::convertTemperatureUnit)
                 .doOnNext(response -> log.info("[requestCurrWeatherByLocation] 성공적으로 날씨를 조회하였습니다."))
-                .doOnNext(response -> log.debug("[requestCurrWeatherByLocation] 날씨 조회 결과, 온도 = {}", response.getMainDto().getTemp()))
+                .doOnNext(response -> log.info("[requestCurrWeatherByLocation] 날씨 조회 결과, 온도= {}°C", response.getMainDto().getTemp()))
+                .doOnNext(this::convertTemperatureUnit)
                 .doOnError(response -> log.error("날씨 조회를 실패하였습니다.(message={})", response.getMessage()))
                 .block();
     }
