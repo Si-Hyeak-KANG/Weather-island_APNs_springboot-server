@@ -52,14 +52,22 @@ public class SchedulerTaskService {
             WeatherApiResponseDto currWeather = weatherSearchService.requestCurrWeatherByLocation(appInfo.getLatitude(), appInfo.getLongitude());
             long pastTemp = appInfo.getTemp();
             long currTemp = Math.round(currWeather.getMainDto().getTemp());
-            log.info("[checkWeatherCurrApp] {} {}전 온도 = {}, 현재 온도 = {} ",period, timeUnit, pastTemp, currTemp);
+            log.info("[checkWeatherCurrApp] {}{} 전 온도 = {}, 현재 온도 = {} ",period, getTimeUnit(), pastTemp, currTemp);
 
             if (isTemperatureDifference(pastTemp, currTemp)) {
-                log.info("[checkWeatherCurrApp] {} {}전 온도와 현재 온도 차이가 발생했습니다.", period, timeUnit);
+                log.info("[checkWeatherCurrApp] {}{} 전 온도와 현재 온도 차이가 발생했습니다.", period, timeUnit);
                 appInfo.updateCurrTemp(currTemp);
                 appInfoRedisService.saveInfo(appInfo);
                 eventPublisher.publishEvent(PushNotificationEventDto.of(appInfo.getPushToken(), appInfo.getApnsId(), currTemp));
             }
+        };
+    }
+
+    private String getTimeUnit() {
+        return switch (timeUnit) {
+            case "MINUTES" -> "분";
+            case "SECONDS" -> "초";
+            default -> timeUnit;
         };
     }
 
