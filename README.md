@@ -34,18 +34,18 @@
 
 # GET STARTED
   
-### [Docker] 통합 개발 서버 실행
+## [Docker] 통합 개발 서버 실행
 
 > 터미널에서 진행
 
-- docker 이미지 내려받기
+### 1) docker 이미지 내려받기
   - redis : `docker pull zlcls456/weather-island-redis:latest`
   - app   : `docker pull zlcls456/weather-island-app:latest`
 
-- 이미지를 제대로 받았는지 확인
+### 2) 이미지를 제대로 받았는지 확인
   - `docker images`
  
-- 도커 이미지 실행
+### 3) 도커 이미지 실행
 > -d : 백그라운드 실행
 > 
 > if) 만약 제대로 실행되지 않는다면, `\` 제거 후 한줄로 입력해주세요. 또한 오타가 없는지 확인해주세요.
@@ -66,11 +66,11 @@
         -e TEAM_ID=$TEAM_ID \
         -p 8081:8080 zlcls456/weather-island-app
 
-- 정상 실행 결과
+### 4) 정상 실행 결과
   
 ![image](https://github.com/Si-Hyeak-KANG/Weather-island_APNs_springboot-server/assets/79829085/85b15ca1-d487-4c51-a909-4f124b60a1da)
 
-- api 요청 테스트
+### 5) api 요청 테스트
   - host : 0.0.0.0
   - port : 8081 
 
