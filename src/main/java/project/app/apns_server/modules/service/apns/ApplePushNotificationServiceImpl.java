@@ -38,7 +38,7 @@ public class ApplePushNotificationServiceImpl implements ApplePushNotificationSe
     @Override
     public void pushNotification(String pushToken, String apnsId, String temperature) {
 
-        log.info("[ApplePushNotificationServiceImpl pushNotification] Push Notification 전송!!!!!!!");
+        log.info("[pushNotification]=====Push Notification 전송=========");
 
         ApnRequestDto dto = ApnRequestDto.of(
                 System.currentTimeMillis() / 1000,

@@ -46,16 +46,16 @@ public class SchedulerTaskService {
     public Runnable checkWeatherCurrApp(final String deviceToken) {
         return () -> {
 
-            log.info("[SchedulerTaskService checkWeatherCurrApp] 스케줄러 작업을 시작합니다.(time: {})", LocalDateTime.now());
+            log.info("[checkWeatherCurrApp] 스케줄러 작업을 시작합니다.(time: {})", LocalDateTime.now());
             AppInfoVo appInfo = appInfoRedisService.findAppInfoByDeviceToken(deviceToken);
 
             WeatherApiResponseDto currWeather = weatherSearchService.requestCurrWeatherByLocation(appInfo.getLatitude(), appInfo.getLongitude());
             long pastTemp = appInfo.getTemp();
             long currTemp = Math.round(currWeather.getMainDto().getTemp());
-            log.info("[SchedulerTaskService checkWeatherCurrApp] 30분전 온도 = {}, 현재 온도 = {} ", pastTemp, currTemp);
+            log.info("[checkWeatherCurrApp] {} {}전 온도 = {}, 현재 온도 = {} ",period, timeUnit, pastTemp, currTemp);
 
             if (isTemperatureDifference(pastTemp, currTemp)) {
-                log.info("[SchedulerTaskService checkWeatherCurrApp] 30분전 온도와 현재 온도 차이가 발생했습니다.");
+                log.info("[checkWeatherCurrApp] {} {}전 온도와 현재 온도 차이가 발생했습니다.", period, timeUnit);
                 appInfo.updateCurrTemp(currTemp);
                 appInfoRedisService.saveInfo(appInfo);
                 eventPublisher.publishEvent(PushNotificationEventDto.of(appInfo.getPushToken(), appInfo.getApnsId(), currTemp));
