@@ -11,8 +11,8 @@ open-weather:
 weather:
   search:
     scheduler:
-      period: 30
-      time-unit: SECONDS
+      period: 1
+      time-unit: MINUTES
 
 apple:
   push:

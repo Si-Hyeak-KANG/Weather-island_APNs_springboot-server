@@ -14,7 +14,7 @@ open-weather:
 weather:
   search:
     scheduler:
-      period: 30
+      period: 10
       time-unit: MINUTES
 
 apple:
