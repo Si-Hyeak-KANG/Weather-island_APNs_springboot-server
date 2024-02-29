@@ -17,6 +17,6 @@ public class PushNotificationEventListener {
 
     @EventListener
     public void handlePushNotification(PushNotificationEventDto event) {
-        applePushNotificationService.pushNotification(event.pushToken(), event.apnsId(), String.valueOf(event.temp()));
+        applePushNotificationService.pushNotification(event.pushToken(), event.apnsId(), event.temp());
     }
 }

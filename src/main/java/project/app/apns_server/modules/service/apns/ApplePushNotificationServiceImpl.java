@@ -36,14 +36,14 @@ public class ApplePushNotificationServiceImpl implements ApplePushNotificationSe
     private String APP_BUNDLE_ID;
 
     @Override
-    public void pushNotification(String pushToken, String apnsId, String temperature) {
+    public void pushNotification(String pushToken, String apnsId, long temperature) {
 
         log.info("[pushNotification]=====Push Notification 전송=========");
 
         ApnRequestDto dto = ApnRequestDto.of(
                 System.currentTimeMillis() / 1000,
                 "update",
-                Collections.singletonMap("temperature", temperature)
+                Collections.singletonMap("temperature", toString(temperature))
         );
 
         String payload = objectMapperService.serializeApnRequestDto(dto);
@@ -80,5 +80,9 @@ public class ApplePushNotificationServiceImpl implements ApplePushNotificationSe
         } catch (InterruptedException e) {
             throw new BusinessLogicException(ExceptionCode.INTERNAL_SERVER_ERROR, e.getMessage());
         }
+    }
+
+    private static String toString(long temperature) {
+        return String.valueOf(temperature).concat("°C");
     }
 }
