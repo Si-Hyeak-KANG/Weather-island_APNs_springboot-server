@@ -14,14 +14,16 @@
 - (앱, 사용자 위치, 날씨) 정보 저장 API 구현
 - 일정 주기 날씨 변동 체크 기능 구현
 - 날씨 변경 내용 APNs 전송 기능 구현
-- LiveActivity 토큰 폐기 API 구현
+- 날씨 스케줄러 중단 및 토큰 폐기 기능 구현
 
 ### 사용기술
 
 - Java17, SpringBoot, Gradle
 - Redis
-- Lombok, WebFlux(webClient), Spring Scheduler, Spring-Retry, aop, validation, ObjectMapper
+- Lombok, WebFlux(webClient), Scheduler, Spring-Retry, AOP, Spring Validation, ObjectMapper
+- Base64(ES256), JJWT 
 - [eatthepath.pushy(APNs)](https://github.com/jchambers/pushy)
+- [WeatherKit API](https://developer.apple.com/documentation/weatherkitrestapi)
 - Docker
 
 ### API 명세서
@@ -60,10 +62,11 @@
         docker run \
         --name weather-island-app \
         -e SPRING_PROFILES_ACTIVE=dev \
-        -e OPEN_WEATHER_API_KEY=$WEATHER_API_KEY \
-        -e APP_BUNDLE_ID=$BUNDLE_ID \
-        -e AUTH_KEY_ID=$AUTH_KEY_ID \
-        -e TEAM_ID=$TEAM_ID \
+        -e TEAM_ID=$TEAM_ID
+        -e APNS_APP_ID=$APNS_APP_ID
+        -e APNS_KEY_ID=$APNS_KEY_ID \
+        -e WEATHER_KIT_KEY_ID=$WEATHER_KIT_KEY_ID \
+        -e WEATHER_KIT_SERVICE_ID=$WEATHER_KIT_SERVICE_ID \
         -p 8081:8080 zlcls456/weather-island-app
 
 ### 4) 정상 실행 결과
