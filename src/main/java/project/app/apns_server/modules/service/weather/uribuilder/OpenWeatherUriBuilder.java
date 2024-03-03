@@ -14,7 +14,6 @@ public class OpenWeatherUriBuilder extends WeatherUriBuilder {
     //https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
     private static final String CURRENT_WEATHER_SEARCH_URL = "https://api.openweathermap.org/data/2.5/weather";
 
-    @Value("${open-weather.api.key}")
     private String openWeatherApiKey;
 
     @Override
