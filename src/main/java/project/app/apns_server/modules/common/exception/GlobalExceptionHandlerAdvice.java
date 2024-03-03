@@ -19,6 +19,9 @@ import java.util.List;
 @RestControllerAdvice
 public class GlobalExceptionHandlerAdvice {
 
+    /**
+     * BusinessLogicException 핸들러
+     */
     @ExceptionHandler(BusinessLogicException.class)
     public ResponseEntity<Response> handleBusinessLogicException(BusinessLogicException e) {
         ExceptionCode error = e.getExceptionCode();
@@ -26,16 +29,17 @@ public class GlobalExceptionHandlerAdvice {
         final ErrorsResponse response = ErrorsResponse.of(error);
 
         String errorMessage = e.getErrorMessage();
-        if(errorMessage.length()!=0) log.error("error reason = {}", errorMessage);
-        response.addReason(errorMessage);
-
+        if(errorMessage.length()!=0) {
+            log.error("error reason = {}", errorMessage);
+            response.addReason(errorMessage);
+        }
         return new ResponseEntity<>(
                 Response.fail(response), error.getHttpStatus());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler
-    public ResponseEntity<Response> handleValidException(Exception e) {
+    public ResponseEntity<Response> handleBadRequestException(Exception e) {
 
         ExceptionCode error = ExceptionCode.CLIENT_BAD_REQUEST;
         log.error("[{}] {}", error.name(), error.getMessage());

@@ -17,10 +17,10 @@ public class ApnsConfig {
 
     private static final String APNS_KEY_FILE = "app/APNsKey.p8";
 
-    @Value("${apple.push.notification.auth-key-id}")
-    private String AUTH_KEY_ID;
+    @Value("${apple.push.notification.key-id}")
+    private String APNS_KEY_ID;
 
-    @Value("${apple.push.notification.team-id}")
+    @Value("${apple.team-id}")
     private String TEAM_ID;
 
     @Bean
@@ -30,7 +30,7 @@ public class ApnsConfig {
                     .setApnsServer(ApnsClientBuilder.PRODUCTION_APNS_HOST)
                     .setSigningKey(
                             ApnsSigningKey.loadFromInputStream(
-                                    new FileInputStream(APNS_KEY_FILE), TEAM_ID, AUTH_KEY_ID)
+                                    new FileInputStream(APNS_KEY_FILE), TEAM_ID, APNS_KEY_ID)
                     ).build();
         } catch (IOException | NoSuchAlgorithmException | InvalidKeyException e) {
             throw new RuntimeException(e);

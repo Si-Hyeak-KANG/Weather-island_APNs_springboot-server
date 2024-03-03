@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.app.apns_server.modules.dto.WeatherApiResponseDto;
 import project.app.apns_server.modules.dto.ApnRequestDto;
+import project.app.apns_server.modules.dto.WeatherKitHeaderDto;
+import project.app.apns_server.modules.dto.WeatherKitPayloadDto;
 import project.app.apns_server.modules.vo.AppInfoVo;
 
 @Service
@@ -39,6 +41,22 @@ public class ObjectMapperService {
     }
 
     public String serializeWeatherApiResponseDto(WeatherApiResponseDto dto) {
+        try {
+            return objectMapper.writeValueAsString(dto);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String serializeWeatherKitHeaderDto(WeatherKitHeaderDto dto) {
+        try {
+            return objectMapper.writeValueAsString(dto);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String serializeWeatherKitPayloadDto(WeatherKitPayloadDto dto) {
         try {
             return objectMapper.writeValueAsString(dto);
         } catch (JsonProcessingException e) {

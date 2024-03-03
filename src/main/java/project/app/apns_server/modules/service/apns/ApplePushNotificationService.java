@@ -1,6 +1,8 @@
 package project.app.apns_server.modules.service.apns;
 
 
+import project.app.apns_server.modules.vo.AppInfoVo;
+
 public interface ApplePushNotificationService {
-    void pushNotification(String pushToken, String apnsId, long temp);
+    void pushNotification(AppInfoVo appInfoVo);
 }

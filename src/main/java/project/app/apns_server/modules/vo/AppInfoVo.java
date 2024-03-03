@@ -1,11 +1,13 @@
 package project.app.apns_server.modules.vo;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import project.app.apns_server.modules.dto.AppInfoRequestDto;
 import project.app.apns_server.modules.dto.WeatherApiResponseDto;
 
+@Builder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AppInfoVo {
@@ -31,8 +33,16 @@ public class AppInfoVo {
                 appInfo.getApnsId(),
                 appInfo.getLatitude(),
                 appInfo.getLongitude(),
-                (long) (weatherInfo.getMainDto().getTemp()) // 온도 소수점 올림
+                (long) (weatherInfo.mainDto().getTemp())
         );
+    }
+
+    public static AppInfoVo ofApnsTest(String pushToken, String apnsId, long temp) {
+        return AppInfoVo.builder()
+                .pushToken(pushToken)
+                .apnsId(apnsId)
+                .temp(temp)
+                .build();
     }
 
     @Override

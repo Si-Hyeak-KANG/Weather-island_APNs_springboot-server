@@ -14,8 +14,8 @@ public class WeatherMainDto {
 
     public static final double DEFAULT_KELVIN = 273.15;
 
-    @JsonProperty("temp")
-    private double temp; // kelvin
+    @JsonProperty("temperature")
+    private double temp;
 
     public void convertToCelsius() {
         this.temp -= DEFAULT_KELVIN;

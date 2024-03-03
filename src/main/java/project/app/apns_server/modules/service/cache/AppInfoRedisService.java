@@ -8,5 +8,5 @@ public interface AppInfoRedisService {
 
     AppInfoVo findAppInfoByDeviceToken(String deviceToken);
 
-    void deleteDeviceByPushToken(String pushToken);
+    void deleteAppInfoByDeviceToken(String pushToken);
 }

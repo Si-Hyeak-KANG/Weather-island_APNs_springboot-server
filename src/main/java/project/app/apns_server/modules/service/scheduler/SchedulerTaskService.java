@@ -15,6 +15,9 @@ import project.app.apns_server.modules.service.weather.WeatherSearchService;
 import project.app.apns_server.modules.vo.AppInfoVo;
 
 import java.time.LocalDateTime;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -29,6 +32,7 @@ public class SchedulerTaskService {
     private String timeUnit;
 
     private final ThreadPoolTaskScheduler scheduler;
+    private final Map<String, ScheduledFuture<?>> scheduledTasks = new ConcurrentHashMap<>();
 
     private final AppInfoRedisServiceImpl appInfoRedisService;
     private final WeatherSearchService weatherSearchService;
@@ -36,7 +40,8 @@ public class SchedulerTaskService {
 
     public void startScheduler(final String deviceToken) {
         scheduler.initialize();
-        scheduler.schedule(this.checkWeatherCurrApp(deviceToken), getTrigger());
+        ScheduledFuture<?> scheduledTask = scheduler.schedule(this.checkWeatherCurrApp(deviceToken), getTrigger());
+        scheduledTasks.put(deviceToken, scheduledTask);
     }
 
     private Trigger getTrigger() {
@@ -46,12 +51,13 @@ public class SchedulerTaskService {
     public Runnable checkWeatherCurrApp(final String deviceToken) {
         return () -> {
 
-            log.info("[checkWeatherCurrApp] 스케줄러 작업을 시작합니다.(time: {})", LocalDateTime.now());
+            log.info("[checkWeatherCurrApp] ======= 스케줄러 작업을 시작합니다.(time: {}) =========", LocalDateTime.now());
             AppInfoVo appInfo = appInfoRedisService.findAppInfoByDeviceToken(deviceToken);
 
             WeatherApiResponseDto currWeather = weatherSearchService.requestCurrWeatherByLocation(appInfo.getLatitude(), appInfo.getLongitude());
             long pastTemp = appInfo.getTemp();
-            long currTemp = Math.round(currWeather.getMainDto().getTemp());
+            //long currTemp = Math.round(currWeather.mainDto().getTemp())+1;
+            long currTemp = pastTemp+1;
             log.info("\n \t [checkWeatherCurrApp] Device 토큰 = {} \n \t [checkWeatherCurrApp] Push 토큰 = {}", appInfo.getDeviceToken(), appInfo.getPushToken());
             log.info("[checkWeatherCurrApp] {}{} 전 온도 = {}°C, 현재 온도 = {}°C ",period, getTimeUnit(), pastTemp, currTemp);
 
@@ -59,9 +65,17 @@ public class SchedulerTaskService {
                 log.info("[checkWeatherCurrApp] {}{} 전 온도와 현재 온도 차이가 발생했습니다.", period, getTimeUnit());
                 appInfo.updateCurrTemp(currTemp);
                 appInfoRedisService.saveInfo(appInfo);
-                eventPublisher.publishEvent(PushNotificationEventDto.of(appInfo.getPushToken(), appInfo.getApnsId(), currTemp));
+                eventPublisher.publishEvent(PushNotificationEventDto.of(appInfo));
             }
         };
+    }
+
+    public void stopScheduler(String deviceToken) {
+        ScheduledFuture<?> scheduledTask = scheduledTasks.get(deviceToken);
+        if (scheduledTask != null) {
+            scheduledTask.cancel(false);
+            scheduledTasks.remove(deviceToken);
+        }
     }
 
     private String getTimeUnit() {

@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import project.app.apns_server.modules.vo.AppInfoVo;
 
 @Getter
 @AllArgsConstructor
@@ -21,4 +22,7 @@ public class ApnsTestRequestDto {
             message = "Canonical UUIDs are 32 lowercase hexadecimal digits, displayed in five groups separated by hyphens in the form 8-4-4-4-12. For example: 123e4567-e89b-12d3-a456-4266554400a0. ")
     @JsonProperty("apns_id")
     private String apnsId;
+    public AppInfoVo toVo(long temp) {
+        return AppInfoVo.ofApnsTest(this.pushToken, this.apnsId, temp);
+    }
 }

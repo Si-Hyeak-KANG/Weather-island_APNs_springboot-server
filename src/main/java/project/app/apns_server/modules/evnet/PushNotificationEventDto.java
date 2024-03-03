@@ -1,8 +1,10 @@
 package project.app.apns_server.modules.evnet;
 
-public record PushNotificationEventDto(String pushToken, String apnsId, long temp) {
+import project.app.apns_server.modules.vo.AppInfoVo;
 
-    public static PushNotificationEventDto of(String pushToken, String apnsId, long temp) {
-        return new PushNotificationEventDto(pushToken, apnsId, temp);
+public record PushNotificationEventDto(AppInfoVo appInfoVo) {
+
+    public static PushNotificationEventDto of(AppInfoVo appInfoVo) {
+        return new PushNotificationEventDto(appInfoVo);
     }
 }

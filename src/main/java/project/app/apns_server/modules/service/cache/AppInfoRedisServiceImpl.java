@@ -11,9 +11,6 @@ import project.app.apns_server.modules.common.exception.exceptionCode.ExceptionC
 import project.app.apns_server.modules.service.ObjectMapperService;
 import project.app.apns_server.modules.vo.AppInfoVo;
 
-import java.util.Map;
-import java.util.Optional;
-
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -32,53 +29,37 @@ public class AppInfoRedisServiceImpl implements AppInfoRedisService {
     }
 
     @Override
-    public boolean saveInfo(final AppInfoVo info){
-        boolean isUpdate = isAlreadyExistField(info.getDeviceToken());
+    public boolean saveInfo(final AppInfoVo info) {
+        boolean isUpdate = isExistFieldByDeviceToken(info.getDeviceToken());
         hashOperations.put(APP_INFO_KEY, info.getDeviceToken(), objectMapperService.serializeAppInfoVo(info));
-        if(isUpdate) log.info("[saveInfo] (update) 기존에 있던 앱의 정보를 갱신했습니다.");
+        if (isUpdate) log.info("[saveInfo] (update) 기존에 있던 앱의 정보를 갱신했습니다.");
         else log.info("[saveInfo] (create) 새로운 앱의 정보를 캐시에 저장했습니다.");
         return isUpdate;
     }
 
-    private boolean isAlreadyExistField(String deviceToken) {
+    private boolean isExistFieldByDeviceToken(String deviceToken) {
         return hashOperations.hasKey(APP_INFO_KEY, deviceToken);
     }
 
     @Override
     public AppInfoVo findAppInfoByDeviceToken(String deviceToken) {
-        validDeviceToken(deviceToken);
-        String data = hashOperations.entries(APP_INFO_KEY).get(deviceToken);
-        log.debug("[findAppInfoByDeviceToken] (Device token={}) {}", deviceToken, data);
-        return objectMapperService.deserializeAppInfoVo(data);
+        if(isExistFieldByDeviceToken(deviceToken)) {
+            String data = hashOperations.entries(APP_INFO_KEY).get(deviceToken);
+            log.debug("[findAppInfoByDeviceToken] (Device token={}) {}", deviceToken, data);
+            return objectMapperService.deserializeAppInfoVo(data);
+        }
+        log.info("[findAppInfoByDeviceToken] (Device token={}) device 토큰에 해당하는 정보가 없습니다.", deviceToken);
+        return null;
     }
 
     @Override
-    public void deleteDeviceByPushToken(String pushToken) {
-        String pushTokenRegex = ".*"+pushToken+".*";
-
-        Optional<Map.Entry<String, String>> result = findDeviceByPushToken(pushTokenRegex);
-
-        result.ifPresent(entry -> {
-            hashOperations.delete(APP_INFO_KEY, entry.getKey());
-            log.info("[deleteDeviceByPushToken] 성공적으로 Push 토큰에 해당하는 디바이스 정보를 캐시에서 삭제했습니다.");
-            log.info("[deleteDeviceByPushToken] 삭제된 Device token : {}", entry.getKey());
-            log.info("[deleteDeviceByPushToken] Matched Value : {}", entry.getValue());
-        });
-
-        if (result.isEmpty()) log.info("[deleteDeviceByPushToken] Push 토큰에 해당하는 디바이스가 없기 때문에 캐시에서 삭제를 하지 않습니다.");
-    }
-
-    private Optional<Map.Entry<String, String>> findDeviceByPushToken(String regex) {
-        return hashOperations.entries(APP_INFO_KEY).entrySet().stream()
-                .filter(entry -> entry.getValue().matches(regex))
-                .findFirst();
-    }
-
-    private void validDeviceToken(String deviceToken) {
-        if (!hashOperations.hasKey(APP_INFO_KEY, deviceToken)) {
-            log.debug("[validDeviceToken] deviceToken : {}", deviceToken);
-            throw new BusinessLogicException(ExceptionCode.RESOURCE_NOT_FOUND);
+    public void deleteAppInfoByDeviceToken(String deviceToken) {
+        if (isExistFieldByDeviceToken(deviceToken)) {
+            hashOperations.delete(APP_INFO_KEY, deviceToken);
+            log.info("[deleteDeviceByPushToken] Push 토큰에 해당하는 데이터를 성공적으로 삭제했습니다.");
+            log.info("[deleteDeviceByPushToken] 삭제된 Device token : {}", deviceToken);
         }
+        else log.info("[deleteDeviceByPushToken] 성공적으로 Push 토큰에 해당하는 디바이스 정보를 캐시에서 삭제했습니다.");
     }
 
 }

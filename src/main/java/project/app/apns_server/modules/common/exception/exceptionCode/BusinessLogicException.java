@@ -5,9 +5,19 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
-@AllArgsConstructor
 public class BusinessLogicException extends RuntimeException {
-    private final ExceptionCode exceptionCode;
+    private ExceptionCode exceptionCode;
+
     private String errorMessage;
+
+    public BusinessLogicException(ExceptionCode exceptionCode) {
+        this.exceptionCode = exceptionCode;
+    }
+
+    public BusinessLogicException(ExceptionCode exceptionCode, String errorMessage) {
+        this.exceptionCode = exceptionCode;
+        this.errorMessage = errorMessage;
+    }
+
+
 }
