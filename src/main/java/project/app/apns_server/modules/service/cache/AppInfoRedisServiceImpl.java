@@ -6,8 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import project.app.apns_server.modules.common.exception.exceptionCode.BusinessLogicException;
-import project.app.apns_server.modules.common.exception.exceptionCode.ExceptionCode;
 import project.app.apns_server.modules.service.ObjectMapperService;
 import project.app.apns_server.modules.vo.AppInfoVo;
 
@@ -26,6 +24,7 @@ public class AppInfoRedisServiceImpl implements AppInfoRedisService {
     @PostConstruct
     public void init() {
         this.hashOperations = redisTemplate.opsForHash();
+        hashOperations.delete(APP_INFO_KEY);
     }
 
     @Override
