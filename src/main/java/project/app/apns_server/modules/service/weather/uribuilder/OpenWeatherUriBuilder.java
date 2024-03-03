@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
-import project.app.apns_server.modules.service.weather.uribuilder.WeatherUriBuilder;
 
 import java.net.URI;
 

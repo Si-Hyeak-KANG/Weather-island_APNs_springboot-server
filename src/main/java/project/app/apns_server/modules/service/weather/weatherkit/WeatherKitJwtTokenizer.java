@@ -20,7 +20,7 @@ import java.util.Base64;
 @RequiredArgsConstructor
 public class WeatherKitJwtTokenizer {
 
-    private static final String WEATHER_KEY_FILE = "app/AuthKey_FSWB6X72BA.p8";
+    private static final String WEATHER_KEY_FILE = "app/WeatherKit.p8";
 
     private final ObjectMapperService objectMapperService;
 

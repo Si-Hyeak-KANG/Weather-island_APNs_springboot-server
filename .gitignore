@@ -1,8 +1,6 @@
 # Created by https://www.toptal.com/developers/gitignore/api/java,gradle,eclipse,macos,windows,intellij+all
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,gradle,eclipse,macos,windows,intellij+all
 
-./app/*
-
 ### Eclipse ###
 .metadata
 bin/
@@ -154,6 +152,7 @@ fabric.properties
 
 .env
 app/APNsKey.p8
+app/WeatherKit.p8
 
 .idea/*
 .idea

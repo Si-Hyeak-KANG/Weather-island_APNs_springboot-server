@@ -7,10 +7,6 @@ spring:
       host: host.docker.internal
       port: 6380
 
-open-weather:
-    api:
-      key: ${OPEN_WEATHER_API_KEY}
-
 weather:
   search:
     scheduler:
