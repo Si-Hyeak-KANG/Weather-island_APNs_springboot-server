@@ -18,11 +18,16 @@ weather:
       time-unit: MINUTES
 
 apple:
+  team-id: ${TEAM_ID}
   push:
     notification:
-      app-bundle-id: ${APP_BUNDLE_ID}
-      auth-key-id: ${AUTH_KEY_ID}
-      team-id: ${TEAM_ID}
+      app-id: ${APNS_APP_ID}
+      key-id: ${APNS_KEY_ID}
+  weather:
+    kit:
+      key-id: ${WEATHER_KIT_KEY_ID}
+      service-id: ${WEATHER_KIT_SERVICE_ID}
+
 
 logging:
   level:
