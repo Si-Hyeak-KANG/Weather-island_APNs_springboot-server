@@ -3,6 +3,8 @@ package project.app.apns_server.modules.service.cache;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -12,7 +14,7 @@ import project.app.apns_server.modules.vo.AppInfoVo;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class AppInfoRedisServiceImpl implements AppInfoRedisService {
+public class AppInfoRedisServiceImpl implements AppInfoRedisService, ApplicationListener<ContextRefreshedEvent> {
 
     private static final String APP_INFO_KEY = "APP_INFO";
 
@@ -24,7 +26,6 @@ public class AppInfoRedisServiceImpl implements AppInfoRedisService {
     @PostConstruct
     public void init() {
         this.hashOperations = redisTemplate.opsForHash();
-        hashOperations.delete(APP_INFO_KEY);
     }
 
     @Override
@@ -61,4 +62,9 @@ public class AppInfoRedisServiceImpl implements AppInfoRedisService {
         else log.info("[deleteDeviceByPushToken] 성공적으로 Push 토큰에 해당하는 디바이스 정보를 캐시에서 삭제했습니다.");
     }
 
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent event) {
+        log.info("[onApplicationEvent] 캐시에 저장된 데이터를 초기화합니다.");
+        redisTemplate.delete(APP_INFO_KEY);
+    }
 }
