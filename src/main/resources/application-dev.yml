@@ -15,14 +15,15 @@ weather:
 
 apple:
   team-id: ${TEAM_ID}
+  app-id: ${APP_ID}
+  service-id: ${SERVICE_ID}
   push:
     notification:
-      app-id: ${APNS_APP_ID}
       key-id: ${APNS_KEY_ID}
   weather:
     kit:
       key-id: ${WEATHER_KIT_KEY_ID}
-      service-id: ${WEATHER_KIT_SERVICE_ID}
+
 
 
 logging:

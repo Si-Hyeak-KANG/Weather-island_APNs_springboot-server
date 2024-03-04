@@ -151,8 +151,8 @@ fabric.properties
 # that are supposed to be shared within teams.
 
 .env
-app/APNsKey.p8
-app/WeatherKit.p8
+private/APNsKey.p8
+private/WeatherKit.p8
 
 .idea/*
 .idea

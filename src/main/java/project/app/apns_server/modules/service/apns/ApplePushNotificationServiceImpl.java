@@ -32,8 +32,8 @@ public class ApplePushNotificationServiceImpl implements ApplePushNotificationSe
     private final AppInfoRedisService appInfoRedisService;
     private final SchedulerTaskService schedulerTaskService;
 
-    @Value("${apple.push.notification.app-id}")
-    private String APNS_APP_ID;
+    @Value("${apple.app-id}")
+    private String APP_ID;
 
     @Override
     public void pushNotification(AppInfoVo appInfoVo) {
@@ -49,7 +49,7 @@ public class ApplePushNotificationServiceImpl implements ApplePushNotificationSe
         String payload = objectMapperService.serializeApnRequestDto(dto);
         final SimpleApnsPushNotification pushNotification = new SimpleApnsPushNotification(
                 appInfoVo.getPushToken(),
-                APNS_APP_ID + ".push-type.liveactivity",
+                APP_ID + ".push-type.liveactivity",
                 payload,
                 Instant.now().plus(Duration.ofHours(1)),
                 DeliveryPriority.IMMEDIATE,

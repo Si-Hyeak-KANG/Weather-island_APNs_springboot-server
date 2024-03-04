@@ -17,10 +17,10 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
       - TEAM_ID=${TEAM_ID}
-      - APNS_APP_ID=${APNS_APP_ID}
+      - APP_ID=${APP_ID}
       - APNS_KEY_ID=${APNS_KEY_ID}
       - WEATHER_KIT_KEY_ID=${WEATHER_KIT_KEY_ID}
-      - WEATHER_KIT_SERVICE_ID=${WEATHER_KIT_SERVICE_ID}
+      - SERVICE_ID=${SERVICE_ID}
     ports:
       - "8081:8080"
     restart: always

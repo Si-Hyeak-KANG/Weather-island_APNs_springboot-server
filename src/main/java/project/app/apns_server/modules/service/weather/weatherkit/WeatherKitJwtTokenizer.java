@@ -20,7 +20,7 @@ import java.util.Base64;
 @RequiredArgsConstructor
 public class WeatherKitJwtTokenizer {
 
-    private static final String WEATHER_KEY_FILE = "app/WeatherKit.p8";
+    private static final String WEATHER_KEY_FILE = "private/WeatherKit.p8";
 
     private final ObjectMapperService objectMapperService;
 
@@ -53,9 +53,7 @@ public class WeatherKitJwtTokenizer {
         String unsignedToken = jwtHeader + "." + jwtPayload;
         byte[] signatureBytes = getSignatureBytes(unsignedToken);
         String jwtSignature = encodingByBase64(signatureBytes);
-        String s = unsignedToken + "." + jwtSignature;
-        log.info("jwt = {}",s);
-        return s;
+        return unsignedToken + "." + jwtSignature;
     }
 
     private byte[] getSignatureBytes(String unsignedToken) throws Exception {

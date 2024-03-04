@@ -15,7 +15,7 @@ import java.security.NoSuchAlgorithmException;
 @Configuration
 public class ApnsConfig {
 
-    private static final String APNS_KEY_FILE = "app/APNsKey.p8";
+    private static final String APNS_KEY_FILE = "private/APNsKey.p8";
 
     @Value("${apple.push.notification.key-id}")
     private String APNS_KEY_ID;

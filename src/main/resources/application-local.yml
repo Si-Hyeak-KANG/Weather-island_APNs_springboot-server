@@ -12,9 +12,9 @@ weather:
 
 apple:
   team-id: ${TEAM_ID}
+  app-id: ${APP_ID}
   push:
     notification:
-      app-id: ${APNS_APP_ID}
       key-id: ${APNS_KEY_ID}
 
 logging:

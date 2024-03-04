@@ -22,13 +22,13 @@ public class AppleWeatherKitSearchServiceImpl implements WeatherSearchService {
     private static final String BEARER = "Bearer "; // TODO 이름변경
 
     @Value("${apple.weather.kit.key-id}")
-    private String WEATHER_KIT_KEY_ID;
+    private String KEY_ID;
 
     @Value("${apple.team-id}")
     private String TEAM_ID;
 
-    @Value("${apple.weather.kit.service-id}")
-    private String WEATHER_KIT_SERVICE_ID;
+    @Value("${apple.service-id}")
+    private String SERVICE_ID;
 
     private final WebClient.Builder webClientBuilder;
     private final WeatherKitUriBuilder weatherKitUriBuilder;
@@ -44,9 +44,9 @@ public class AppleWeatherKitSearchServiceImpl implements WeatherSearchService {
                     .uri(uri)
                     .header("Authorization",
                             BEARER.concat(jwtTokenizer.createJwtToken(
-                                    WEATHER_KIT_KEY_ID,
+                                    KEY_ID,
                                     TEAM_ID,
-                                    WEATHER_KIT_SERVICE_ID)))
+                                    SERVICE_ID)))
                     .retrieve()
                     .bodyToMono(WeatherApiResponseDto.class)
                     .doOnNext(this::convertTemperatureUnit)
