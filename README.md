@@ -63,10 +63,11 @@
         --name weather-island-app \
         -e SPRING_PROFILES_ACTIVE=dev \
         -e TEAM_ID=$TEAM_ID
-        -e APNS_APP_ID=$APNS_APP_ID
+        -e APP_ID=$APNS_APP_ID
+        -e SERVICE_ID=$SERVICE_ID \
         -e APNS_KEY_ID=$APNS_KEY_ID \
         -e WEATHER_KIT_KEY_ID=$WEATHER_KIT_KEY_ID \
-        -e WEATHER_KIT_SERVICE_ID=$WEATHER_KIT_SERVICE_ID \
+        
         -p 8081:8080 zlcls456/weather-island-app
 
 ### 4) 정상 실행 결과
