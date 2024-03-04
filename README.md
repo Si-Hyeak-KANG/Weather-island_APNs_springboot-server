@@ -70,12 +70,19 @@
         -p 8081:8080 zlcls456/weather-island-app
 
 ### 4) 정상 실행 결과
+
+- 실행중인 컨테이너 확인 명령어
+
+      docker ps
+
+  ![image](https://github.com/Si-Hyeak-KANG/Weather-island_APNs_springboot-server/assets/79829085/3cb2168f-4155-4790-b987-1dc47bdd733a)
+
   
 ![image](https://github.com/Si-Hyeak-KANG/Weather-island_APNs_springboot-server/assets/79829085/85b15ca1-d487-4c51-a909-4f124b60a1da)
 
 ### 5) api 요청 테스트
   - host : 0.0.0.0
-  - port : 8081 
+  - port : 8081
 
 ---
 
