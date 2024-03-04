@@ -96,6 +96,7 @@
 
       docker run \
       --name weather-island-app \
+      --network weather-island \
       -e SPRING_PROFILES_ACTIVE=dev \
       -e TEAM_ID=$TEAM_ID \
       -e APP_ID=$APP_ID \
