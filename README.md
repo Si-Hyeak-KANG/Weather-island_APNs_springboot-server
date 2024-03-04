@@ -88,5 +88,6 @@
 
 ## 참고링크
 - [[APNs 서버] 개발 환경 명세서](https://github.com/Si-Hyeak-KANG/Weather-island_APNs_springboot-server/wiki/%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD%EB%AA%85%EC%84%B8%EC%84%9C)
+- [WeatherKit Docs](https://developer.apple.com/documentation/weatherkitrestapi)
+- [APNs Docs](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/sending_notification_requests_to_apns)
 - [날씨 OpenAPI](https://openweathermap.org/api/one-call-3#how)
-- [APNs docs](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/sending_notification_requests_to_apns)
