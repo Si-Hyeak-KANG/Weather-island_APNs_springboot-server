@@ -1,3 +1,4 @@
+# M1 chip build platform
 version: "3.8"
 services:
   weather-island-redis:
@@ -5,15 +6,17 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./redis
-    image: zlcls456/weather-island-redis
+    platform: linux/arm64
+    image: zlcls456/weather-island-redis-arm64
     ports:
       - "6380:6379"
   weather-island-app:
     container_name: weather-island-app
     build: .
+    platform: linux/arm64
     depends_on:
       - weather-island-redis
-    image: zlcls456/weather-island-app
+    image: zlcls456/weather-island-app-arm64
     environment:
       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
       - TEAM_ID=${TEAM_ID}

@@ -1,0 +1,29 @@
+# Intel chip build platform
+version: "3.8"
+services:
+  weather-island-redis:
+    container_name: weather-island-redis
+    build:
+      dockerfile: Dockerfile
+      context: ./redis
+    platform: linux/amd64
+    image: zlcls456/weather-island-redis-amd64
+    ports:
+      - "6380:6379"
+  weather-island-app:
+    container_name: weather-island-app
+    build: .
+    platform: linux/amd64
+    depends_on:
+      - weather-island-redis
+    image: zlcls456/weather-island-app-amd64
+    environment:
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+      - TEAM_ID=${TEAM_ID}
+      - APP_ID=${APP_ID}
+      - APNS_KEY_ID=${APNS_KEY_ID}
+      - WEATHER_KIT_KEY_ID=${WEATHER_KIT_KEY_ID}
+      - SERVICE_ID=${SERVICE_ID}
+    ports:
+      - "8081:8080"
+    restart: always
