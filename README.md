@@ -44,25 +44,19 @@
 
 ### 1) docker 이미지 내려받기
 
-> Intel 칩, Window, ubuntu 등
+- Intel 칩, Window, ubuntu 등
 
-  - redis
   
-        docker pull zlcls456/weather-island-redis-amd64:latest
-   
-  - app 
+    docker pull zlcls456/weather-island-redis-amd64:latest
+
+    docker pull zlcls456/weather-island-app-amd64:latest
     
-         docker pull zlcls456/weather-island-app-amd64:latest
-    
-> Apple 칩
+- Apple 칩
 
-- redis
 
-      docker pull zlcls456/weather-island-redis-arm64:latest
+    docker pull zlcls456/weather-island-redis-arm64:latest
 
-- app
-
-       docker pull zlcls456/weather-island-app-arm64:latest
+    docker pull zlcls456/weather-island-app-arm64:latest
 
 ### 2) 이미지를 제대로 받았는지 확인
   - `docker images`
@@ -98,8 +92,6 @@
       docker run --name weather-island-redis -d -p 6380:6379 zlcls456/weather-island-redis-arm64
 
 - app :
-
-  > `$NAME` 형태는 터미널에서 환경변수로 값 기입
 
       docker run \
       --name weather-island-app \
