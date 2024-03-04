@@ -34,40 +34,88 @@
 ---
 <br>
 
-# GET STARTED
+# 🏃‍♂️ GET STARTED
   
-## [Docker] 통합 개발 서버 실행
+## [Docker] 통합개발 서버 실행하기
 
-> 터미널에서 진행
+> !) CLI 환경에서 진행합니다. 
+> 
+> ‼) 추가로 OS, 프로세서에 따라 다른 build platform 을 갖기 때문에 확인하여 받아주세요.
 
 ### 1) docker 이미지 내려받기
-  - redis : `docker pull zlcls456/weather-island-redis:latest`
-  - app   : `docker pull zlcls456/weather-island-app:latest`
+
+> Intel 칩, Window, ubuntu 등
+
+  - redis
+  
+        docker pull zlcls456/weather-island-redis-amd64:latest
+   
+  - app 
+    
+         docker pull zlcls456/weather-island-app-amd64:latest
+    
+> Apple 칩
+
+- redis
+
+      docker pull zlcls456/weather-island-redis-arm64:latest
+
+- app
+
+       docker pull zlcls456/weather-island-app-arm64:latest
 
 ### 2) 이미지를 제대로 받았는지 확인
   - `docker images`
  
 ### 3) 도커 이미지 실행
-> -d : 백그라운드 실행
-> 
-> if) 만약 제대로 실행되지 않는다면, `\` 제거 후 한줄로 입력해주세요. 또한 오타가 없는지 확인해주세요.
-  - redis :
 
-        docker run --name weather-island-redis -d -p 6380:6379 zlcls456/weather-island-redis
+> Intel 칩, Window, ubuntu 등
+
+- redis :
+
+      docker run --name weather-island-redis -d -p 6380:6379 zlcls456/weather-island-redis-amd64
     
-  - app :
+- app :
     
     > `$NAME` 형태는 터미널에서 환경변수로 값 기입     
 
-        docker run \
-        --name weather-island-app \
-        -e SPRING_PROFILES_ACTIVE=dev \
-        -e TEAM_ID=$TEAM_ID \
-        -e APP_ID=$APP_ID \
-        -e SERVICE_ID=$SERVICE_ID \
-        -e APNS_KEY_ID=$APNS_KEY_ID \
-        -e WEATHER_KIT_KEY_ID=$WEATHER_KIT_KEY_ID \
-        -p 8081:8080 zlcls456/weather-island-app
+      docker run \
+      --name weather-island-app \
+      -e SPRING_PROFILES_ACTIVE=dev \
+      -e TEAM_ID=$TEAM_ID \
+      -e APP_ID=$APP_ID \
+      -e SERVICE_ID=$SERVICE_ID \
+      -e APNS_KEY_ID=$APNS_KEY_ID \
+      -e WEATHER_KIT_KEY_ID=$WEATHER_KIT_KEY_ID \
+      -p 8081:8080 zlcls456/weather-island-app-amd64
+
+<br>
+
+> Apple 칩
+
+- redis :
+
+      docker run --name weather-island-redis -d -p 6380:6379 zlcls456/weather-island-redis-arm64
+
+- app :
+
+  > `$NAME` 형태는 터미널에서 환경변수로 값 기입
+
+      docker run \
+      --name weather-island-app \
+      -e SPRING_PROFILES_ACTIVE=dev \
+      -e TEAM_ID=$TEAM_ID \
+      -e APP_ID=$APP_ID \
+      -e SERVICE_ID=$SERVICE_ID \
+      -e APNS_KEY_ID=$APNS_KEY_ID \
+      -e WEATHER_KIT_KEY_ID=$WEATHER_KIT_KEY_ID \
+      -p 8081:8080 zlcls456/weather-island-app-arm64
+
+<br>
+
+> -d : 백그라운드 실행 명령어
+>
+> if) 만약 제대로 실행되지 않는다면, `\` 제거 후 한줄로 입력해주세요. 또한 오타가 없는지 확인해주세요.
 
 ### 4) 정상 실행 결과
 
