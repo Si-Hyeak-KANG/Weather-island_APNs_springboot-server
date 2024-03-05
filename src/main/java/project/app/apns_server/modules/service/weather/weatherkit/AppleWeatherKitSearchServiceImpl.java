@@ -19,7 +19,7 @@ import java.net.URI;
 @RequiredArgsConstructor
 public class AppleWeatherKitSearchServiceImpl implements WeatherSearchService {
 
-    private static final String BEARER = "Bearer "; // TODO 이름변경
+    private static final String AUTH_TYPE = "Bearer "; // TODO 이름변경
 
     @Value("${apple.weather.kit.key-id}")
     private String KEY_ID;
@@ -43,7 +43,7 @@ public class AppleWeatherKitSearchServiceImpl implements WeatherSearchService {
                     .method(HttpMethod.GET)
                     .uri(uri)
                     .header("Authorization",
-                            BEARER.concat(jwtTokenizer.createJwtToken(
+                            AUTH_TYPE.concat(jwtTokenizer.createJwtToken(
                                     KEY_ID,
                                     TEAM_ID,
                                     SERVICE_ID)))
