@@ -72,9 +72,6 @@ public class Response {
         @JsonProperty("push_token")
         private String pushToken;
 
-        @JsonProperty("apns_id")
-        private String apnsId;
-
         @JsonProperty("lat")
         private double latitude;
 
@@ -84,7 +81,6 @@ public class Response {
         public AppResponse(AppInfoVo result) {
             this.deviceToken = result.getDeviceToken();
             this.pushToken = result.getPushToken();
-            this.apnsId = result.getApnsId();
             this.latitude = result.getLatitude();
             this.longitude = result.getLongitude();
         }

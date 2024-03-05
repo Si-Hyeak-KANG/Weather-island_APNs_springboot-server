@@ -53,9 +53,7 @@ public class ApplePushNotificationServiceImpl implements ApplePushNotificationSe
                 payload,
                 Instant.now().plus(Duration.ofHours(1)),
                 DeliveryPriority.IMMEDIATE,
-                PushType.LIVE_ACTIVITY,
-                "liveActivityUpdate",
-                UUID.fromString(appInfoVo.getApnsId())
+                PushType.LIVE_ACTIVITY
         );
 
         Future<PushNotificationResponse<ApnsPushNotification>> sendNotificationFuture = apnsClient.sendNotification(pushNotification);
