@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import project.app.apns_server.modules.common.exception.exceptionCode.BusinessLogicException;
 import project.app.apns_server.modules.common.exception.exceptionCode.ExceptionCode;
-import project.app.apns_server.modules.service.ObjectMapperService;
 import project.app.apns_server.modules.dto.ApnRequestDto;
+import project.app.apns_server.modules.service.ObjectMapperService;
 import project.app.apns_server.modules.service.cache.AppInfoRedisService;
 import project.app.apns_server.modules.service.scheduler.SchedulerTaskService;
 import project.app.apns_server.modules.vo.AppInfoVo;
@@ -18,7 +18,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -68,7 +67,7 @@ public class ApplePushNotificationServiceImpl implements ApplePushNotificationSe
                 BusinessLogicException exception = new BusinessLogicException(ExceptionCode.APNS_PUSH_NOTIFICATION_FAIL, reason.get());
 
                 if (pushNotificationResponse.getTokenInvalidationTimestamp().isPresent()) {
-                    exception = new BusinessLogicException(ExceptionCode.APNS_PUSH_TOKEN_EXPIRED, "만료날짜: " + String.valueOf(pushNotificationResponse.getTokenInvalidationTimestamp().get()));
+                    exception = new BusinessLogicException(ExceptionCode.APNS_PUSH_TOKEN_EXPIRED, "만료날짜: " + pushNotificationResponse.getTokenInvalidationTimestamp().get());
                 }
                 String deviceToken = appInfoVo.getDeviceToken();
                 if(deviceToken !=null) {

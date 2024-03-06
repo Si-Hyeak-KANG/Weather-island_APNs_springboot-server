@@ -21,14 +21,14 @@ public class LogAop {
         Signature signature = joinPoint.getSignature();
 
         log.info("======= [START API] {} =======",
-                signature.getName().toString());
+                signature.getName());
 
         log.info("Controller = {}",
                 signature.getDeclaringTypeName());
 
         // 파라미터 받아오기
         Object[] args = joinPoint.getArgs();
-        if (args.length <= 0) log.info("no parameter");
+        if (args.length == 0) log.info("no parameter");
         for (Object arg : args) {
             log.info("Parameter type = {}", arg.getClass().getSimpleName());
             log.info("Parameter value = {}", arg);
@@ -44,7 +44,7 @@ public class LogAop {
 
         log.debug("REQUEST : {}({})",
                 signature.getDeclaringType(),
-                signature.getName().toString());
+                signature.getName());
 
         Object result = joinPoint.proceed();
 
