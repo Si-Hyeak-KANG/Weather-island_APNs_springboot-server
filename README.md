@@ -1,6 +1,7 @@
 # 실시간 날씨 정보 Apple Push Notification 서버
 
-`server ver1.0.0`
+### [`server-v1.0.0-beta`](https://github.com/Si-Hyeak-KANG/Weather-island_APNs_springboot-server/releases/tag/server-v1.0.0-beta)
+
 
 설명: 앱이 백그라운드 혹은 종료되어 있을 때, LiveActivity*에 날씨 정보를 보내주기 위한 서버입니다.
 
