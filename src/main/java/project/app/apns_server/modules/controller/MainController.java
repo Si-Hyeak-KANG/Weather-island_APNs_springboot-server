@@ -25,17 +25,10 @@ public class MainController {
 
     private final SchedulerTaskService schedulerTaskService;
     private final AppInfoRedisService appInfoRedisService;
-    private final WeatherSearchService weatherSearchService;
 
     @PostMapping("/init/app/info")
     public ResponseEntity<Response> saveAppAndWeatherInitInfo(@RequestBody @Valid AppInfoRequestDto appInfoRequest) {
-
-        // 현재 앱의 위치에 맞는 날씨 조회
-        WeatherApiResponseDto weatherInfo = weatherSearchService
-                .requestCurrWeatherByLocation(appInfoRequest.getLatitude(), appInfoRequest.getLongitude());
-
-        // 조회한 날씨와 요청한 앱의 정보 Redis 저장
-        AppInfoVo appInfo = AppInfoVo.of(appInfoRequest, weatherInfo);
+        AppInfoVo appInfo = AppInfoVo.of(appInfoRequest);
         boolean isUpdate = appInfoRedisService.saveInfo(appInfo);
         if(!isUpdate) schedulerTaskService.startScheduler(appInfo.getDeviceToken());
         return new ResponseEntity<>(Response.success(appInfo), HttpStatus.CREATED);
