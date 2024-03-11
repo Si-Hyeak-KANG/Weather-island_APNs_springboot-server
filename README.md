@@ -18,10 +18,12 @@
 
 ### 사용기술
 
+> [개발 환경 명세서](https://github.com/Si-Hyeak-KANG/Weather-island_APNs_springboot-server/wiki/%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD%EB%AA%85%EC%84%B8%EC%84%9C) 
+
 - Java17, SpringBoot, Gradle
 - Redis
-- Lombok, WebFlux(webClient), Scheduler, Spring-Retry, AOP, Spring Validation, ObjectMapper
-- Base64(ES256), JJWT 
+- Lombok, WebFlux(webClient), Scheduler, AOP, Spring Validation, ObjectMapper
+- Base64(ES256), JWT
 - [eatthepath.pushy(APNs)](https://github.com/jchambers/pushy)
 - [WeatherKit API](https://developer.apple.com/documentation/weatherkitrestapi)
 - Docker
@@ -31,7 +33,12 @@
 - 문서화 툴 : Postman
 - https://documenter.getpostman.com/view/15157402/2sA2r9XPRY
 
+### 서버 플로우차트
+
+- [WIKI 페이지 이동](https://github.com/Si-Hyeak-KANG/Weather-island_APNs_springboot-server/wiki/ver-1.0.0%E2%80%90%ED%94%8C%EB%A1%9C%EC%9A%B0%EC%B0%A8%ED%8A%B8%E2%80%9024.03.11)
+
 ---
+
 <br>
 
 # 🏃‍♂️ GET STARTED
@@ -127,7 +134,6 @@
 ---
 
 ## 참고링크
-- [[APNs 서버] 개발 환경 명세서](https://github.com/Si-Hyeak-KANG/Weather-island_APNs_springboot-server/wiki/%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD%EB%AA%85%EC%84%B8%EC%84%9C)
 - [WeatherKit Docs](https://developer.apple.com/documentation/weatherkitrestapi)
 - [APNs Docs](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/sending_notification_requests_to_apns)
 - [날씨 OpenAPI](https://openweathermap.org/api/one-call-3#how)
