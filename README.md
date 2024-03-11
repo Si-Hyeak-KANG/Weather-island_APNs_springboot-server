@@ -35,7 +35,7 @@
 
 ### 서버 플로우차트
 
-- [WIKI 페이지 이동](https://github.com/Si-Hyeak-KANG/Weather-island_APNs_springboot-server/wiki/ver-1.0.0%E2%80%90%ED%94%8C%EB%A1%9C%EC%9A%B0%EC%B0%A8%ED%8A%B8%E2%80%9024.03.11)
+- [WIKI 페이지 이동](https://github.com/Si-Hyeak-KANG/Weather-island_APNs_springboot-server/wiki/%08v1.0.0%E2%80%90%ED%94%8C%EB%A1%9C%EC%9A%B0%EC%B0%A8%ED%8A%B8%E2%80%9024.03.11)
 
 ---
 
