@@ -37,5 +37,6 @@ public class AppInfoRequestDto {
     private Double longitude;
 
     @JsonProperty("temperature")
+    @NotNull(message = "온도 미입력")
     private long temp;
 }
