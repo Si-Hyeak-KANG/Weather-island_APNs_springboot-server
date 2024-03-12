@@ -2,11 +2,9 @@ package project.app.apns_server.modules.service.scheduler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
-import org.springframework.scheduling.support.PeriodicTrigger;
 import org.springframework.stereotype.Service;
 import project.app.apns_server.modules.dto.WeatherApiResponseDto;
 import project.app.apns_server.modules.evnet.PushNotificationEventDto;
@@ -15,11 +13,8 @@ import project.app.apns_server.modules.service.weather.WeatherSearchService;
 import project.app.apns_server.modules.vo.AppInfoVo;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
@@ -49,10 +44,10 @@ public class SchedulerTaskService {
             WeatherApiResponseDto currWeather = weatherSearchService.requestCurrWeatherByLocation(appInfo.getLatitude(), appInfo.getLongitude());
             long pastTemp = appInfo.getTemp();
             long currTemp = Math.round(currWeather.mainDto().getTemp());
-            log.info("[checkWeatherCurrApp] {}{} 전 온도 = {}°C, 현재 온도 = {}°C ", timeUnitConvertService.getPeriod(), timeUnitConvertService.getTimeUnit(), pastTemp, currTemp);
+            log.info("[checkWeatherCurrApp] {}{} 전 온도 = {}°C, 현재 온도 = {}°C ", timeUnitConvertService.getPeriod(), timeUnitConvertService.getTimeUnitToKorean(), pastTemp, currTemp);
 
             if (isTemperatureDifference(pastTemp, currTemp)) {
-                log.info("[checkWeatherCurrApp] {}{} 전 온도와 현재 온도 차이가 발생했습니다.", timeUnitConvertService.getPeriod(), timeUnitConvertService.getTimeUnit());
+                log.info("[checkWeatherCurrApp] {}{} 전 온도와 현재 온도 차이가 발생했습니다.", timeUnitConvertService.getPeriod(), timeUnitConvertService.getTimeUnitToKorean());
                 appInfo.updateCurrTemp(currTemp);
                 appInfoRedisService.saveInfo(appInfo);
                 eventPublisher.publishEvent(PushNotificationEventDto.of(appInfo));

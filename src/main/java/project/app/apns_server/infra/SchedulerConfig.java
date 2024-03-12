@@ -1,7 +1,7 @@
 package project.app.apns_server.infra;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.Trigger;
@@ -10,16 +10,20 @@ import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.scheduling.support.PeriodicTrigger;
+import project.app.apns_server.modules.service.scheduler.TimeUnitConvertService;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @EnableScheduling
+@RequiredArgsConstructor
 @Configuration
 public class SchedulerConfig implements SchedulingConfigurer {
+
+    private final TimeUnitConvertService timeUnitConvertService;
 
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar){
@@ -37,4 +41,11 @@ public class SchedulerConfig implements SchedulingConfigurer {
         return new HashMap<>();
     }
 
+    @Bean
+    public Trigger trigger() {
+        Duration duration = timeUnitConvertService.getPeriodToDuration();
+        PeriodicTrigger trigger = new PeriodicTrigger(duration);
+        trigger.setInitialDelay(duration);
+        return trigger;
+    }
 }

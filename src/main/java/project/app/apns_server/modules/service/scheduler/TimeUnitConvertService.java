@@ -3,10 +3,11 @@ package project.app.apns_server.modules.service.scheduler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+
 @Component
 public class TimeUnitConvertService {
-
-    private static final long MILLISECONDS = 1_000;
 
     @Value("${weather.search.scheduler.period}")
     private Long period;
@@ -14,7 +15,7 @@ public class TimeUnitConvertService {
     @Value("${weather.search.scheduler.time-unit}")
     private String timeUnit;
 
-    public String getTimeUnit() {
+    public String getTimeUnitToKorean() {
         return switch (this.timeUnit) {
             case "HOURS" -> "시";
             case "MINUTES" -> "분";
@@ -23,12 +24,16 @@ public class TimeUnitConvertService {
         };
     }
 
-    public Long getPeriodToMilliseconds() {
+    public TimeUnit getTimeUnit() {
+        return TimeUnit.valueOf(this.timeUnit);
+    }
+
+    public Duration getPeriodToDuration() {
         return switch (this.timeUnit) {
-            case "HOURS" -> this.period*MILLISECONDS*3600;
-            case "MINUTES" -> this.period*MILLISECONDS*60;
-            case "SECONDS" -> this.period*MILLISECONDS;
-            default -> this.period;
+            case "HOURS" -> Duration.ofHours(period);
+            case "MINUTES" -> Duration.ofMinutes(period);
+            case "SECONDS" -> Duration.ofSeconds(period);
+            default -> Duration.ZERO;
         };
     }
 
