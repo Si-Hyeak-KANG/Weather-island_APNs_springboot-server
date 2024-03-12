@@ -4,6 +4,7 @@
 
 > LiveActivity : 다이나믹 아일랜드 및 잠금화면에 보이는 위젯 기능. iOS16.1 이상 버전에서 사용 가능.
 
+- 2024-03-12 | [`server-v1.1.1-beta`](https://github.com/Si-Hyeak-KANG/Weather-island_APNs_springboot-server/releases/tag/server-v1.1.1-beta) <br>
 - 2024-03-12 | [`server-v1.1.0-beta`](https://github.com/Si-Hyeak-KANG/Weather-island_APNs_springboot-server/releases/tag/server-v1.1.0-beta) <br>
 - 2024-03-11 | [`server-v1.0.0-beta`](https://github.com/Si-Hyeak-KANG/Weather-island_APNs_springboot-server/releases/tag/server-v1.0.0-beta) <br>
 
