@@ -10,7 +10,7 @@ spring:
 weather:
   search:
     scheduler:
-      period: 10
+      period: 15
       time-unit: MINUTES
 
 apple:
