@@ -43,6 +43,15 @@ public class AppInfoVo {
                 .build();
     }
 
+    public static AppInfoVo of(AppInfoRequestDto appInfo) {
+        return new AppInfoVo(
+                appInfo.getDeviceToken(),
+                appInfo.getPushToken(),
+                appInfo.getLatitude(),
+                appInfo.getLongitude(),
+                appInfo.getTemp());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

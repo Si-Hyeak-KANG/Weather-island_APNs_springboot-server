@@ -12,7 +12,7 @@ import lombok.ToString;
 
 /**
  * LiveActivity 를 실행한 앱의 토큰과 위치 정보
- * @Param :  Device token, LiveActivity token, 위도(Latitude), 경도(longitude)
+ * @Param :  Device token, LiveActivity token, 위도(Latitude), 경도(longitude), 온도(temperature)
  */
 @ToString
 @Getter
@@ -35,4 +35,7 @@ public class AppInfoRequestDto {
     @JsonProperty("lon")
     @NotNull(message = "경도(lon) 미입력")
     private Double longitude;
+
+    @JsonProperty("temperature")
+    private long temp;
 }

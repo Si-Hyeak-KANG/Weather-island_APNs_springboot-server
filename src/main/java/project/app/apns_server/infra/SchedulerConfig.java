@@ -21,12 +21,6 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class SchedulerConfig implements SchedulingConfigurer {
 
-    @Value("${weather.search.scheduler.period}")
-    private Long period;
-
-    @Value("${weather.search.scheduler.time-unit}")
-    private String timeUnit;
-
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar){
         ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
@@ -42,11 +36,5 @@ public class SchedulerConfig implements SchedulingConfigurer {
     public Map<String, ScheduledFuture<?>> scheduledTasks() {
         return new HashMap<>();
     }
-
-    @Bean
-    public Trigger trigger() {
-        return new PeriodicTrigger(period, TimeUnit.valueOf(timeUnit));
-    }
-
 
 }
